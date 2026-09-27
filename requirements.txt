@@ -1,0 +1,3 @@
+# CG-002 runtime dependency, matching the verified fyp environment.
+# NumPy is supplied as an OpenCV dependency; no detection/model stack is required.
+opencv-python==5.0.0.93

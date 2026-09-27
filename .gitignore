@@ -1,0 +1,49 @@
+# Python environments and generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Credentials and machine-local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Recordings, research data, models, and inspection artifacts
+data/
+datasets/
+videos/
+recordings/
+models/
+weights/
+outputs/
+runs/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.m4v
+*.pt
+*.pth
+*.onnx
+inspection.json
+frame_*.jpg
+*.log

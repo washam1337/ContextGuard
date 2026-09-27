@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">ContextGuard</title>
+  <desc id="desc">Context-aware workspace anomaly detection. Expected context, observed events, explainable review. An early-stage AI research project.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#0b1224"/>
+      <stop offset="1" stop-color="#123744"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity=".07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="340" rx="20" fill="url(#bg)"/>
+  <rect width="1200" height="340" rx="20" fill="url(#grid)"/>
+  <rect x="56" y="49" width="202" height="28" rx="14" fill="#134e4a"/>
+  <text x="157" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.8" fill="#99f6e4">AI RESEARCH PROJECT</text>
+  <text x="54" y="151" font-family="Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#f8fafc">Context<tspan fill="#5eead4">Guard</tspan></text>
+  <text x="58" y="194" font-family="Arial, sans-serif" font-size="22" fill="#cbd5e1">Context-aware workspace anomaly detection</text>
+  <path d="M58 231H642" stroke="#64748b" stroke-opacity=".4"/>
+  <text x="58" y="268" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8">EXPECTED CONTEXT</text>
+  <path d="M231 262h29m-6-5 6 5-6 5" fill="none" stroke="#5eead4" stroke-width="2"/>
+  <text x="278" y="268" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8">OBSERVED EVENTS</text>
+  <path d="M443 262h29m-6-5 6 5-6 5" fill="none" stroke="#5eead4" stroke-width="2"/>
+  <text x="491" y="268" font-family="Arial, sans-serif" font-size="15" fill="#94a3b8">HUMAN REVIEW</text>
+  <g transform="translate(835 58)">
+    <circle cx="112" cy="112" r="107" fill="#0f766e" fill-opacity=".09" stroke="#5eead4" stroke-opacity=".13"/>
+    <path d="M112 24 180 50v61c0 49-38 81-68 94-30-13-68-45-68-94V50Z" fill="#0f766e" fill-opacity=".15" stroke="#5eead4" stroke-width="2.5"/>
+    <rect x="72" y="83" width="80" height="57" rx="9" fill="#0b192a" stroke="#99f6e4" stroke-width="2"/>
+    <circle cx="112" cy="111" r="15" fill="none" stroke="#5eead4" stroke-width="2.5"/>
+    <circle cx="112" cy="111" r="5" fill="#5eead4"/>
+    <path d="M91 74V64h42v10M92 150h40" fill="none" stroke="#5eead4" stroke-width="2"/>
+  </g>
+</svg>

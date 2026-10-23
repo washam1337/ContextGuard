@@ -1807,3 +1807,165 @@ functionality existed at task entry. Detection, tracking, zones, asset state,
 structured events, context comparison, anomaly decisions, event storage, and
 evidence windows remain PLANNED; an inspection report is not an event log or an
 anomaly evidence window. See docs/PROGRESS.md for verified implementation status.
+
+---
+
+## FYP-1 scope amendment — 2026-10-24
+
+### Authority and phase boundary
+
+Authority: finalized FYP-1 requirements approved by the user/coordinator. This
+amendment supersedes conflicting implementation order, demo acceptance criteria,
+and milestone definitions for the current FYP-1 phase. The original specification
+and CG-002 amendment above are preserved unchanged. CG-002 remains completed;
+this amendment neither reopens it nor changes its inspection report contract.
+Supervisor approval is not claimed.
+
+The overall research objective remains expected-versus-observed contextual
+reasoning and evaluation of the contribution of temporal/context information.
+FYP-1 delivers the perception foundation and complete system design; it does not
+claim that the full reasoning, incident, evidence, or feedback system is working.
+Context/temporal improvements remain hypotheses for later comparative evaluation.
+
+### Six finalized deliverables and acceptance criteria
+
+| Deliverable | FYP-1 acceptance criteria |
+| --- | --- |
+| 1. Complete system workflow diagram | Trace user interactions, rule configuration and storage, video processing, structured observations/events, temporal and expected-versus-observed reasoning, incidents/explanations, evidence clips, human review, and separately stored feedback. Label implemented, FYP-1 planned, later planned, and deferred capabilities explicitly. |
+| 2. Working recorded-office-video demo | A documented CPU-compatible command processes a consented recorded office/staged-office video through person and selected office-object detection/tracking, manually configured polygon zones, and people counting; produces a playable annotated video and structured output. Preserve source media. |
+| 3. Structured detections/tracks | Versioned frame-level observations include timing, anonymous IDs, classes/confidence, boxes, zone membership, and counts under the contract below. Output and annotations refer to the same source frames/times. |
+| 4. Dataset and pretrained-model documentation | Document recording provenance, consent/access/retention, scenarios, annotation protocol, dataset revision and session-separated tuning/evaluation allocation; document model/tracker provenance, versions, supported classes, weights/checksum, licensing, configuration and limitations. Distinguish planned collection from available data and synthetic fixtures from research recordings. |
+| 5. Test cases and honest evaluation outcomes | Retain CG-002 checks; test deterministic observation/zone/count logic and integrated outputs; report measured perception/counting outcomes, runtime, failures and limitations on identified footage. Include SYS-01–SYS-08 with their actual execution status, including not run. Do not claim system-level passes from perception-only outputs. |
+| 6. Updated architecture, milestones and development roadmap | Describe actual implementation and interfaces separately from the full-system design; record CG-003–CG-006 exit criteria, prerequisites, remaining decisions and later reasoning/evidence/feedback work. |
+
+The executable demo pipeline is:
+
+`recorded video → detection → tracking → zones/counting → annotated video + structured output`
+
+CG-002 inspection is a preparatory recording/placement review tool, not a required
+reasoning stage. Annotated demo video is not an incident evidence clip, and raw
+detections/tracks are not inferred interactions or anomaly decisions.
+
+### Scene, objects, zones and counting semantics
+
+- Retain one fixed camera, one faculty office initially represented by a staged
+  room, CPU-compatible local work, and recorded-video-first development.
+- Retain one laptop and one backpack as initial monitored assets at registered
+  starting positions. Document detection is EXPERIMENTAL and feasibility-dependent;
+  it is not a required demo class or a prerequisite for FYP-1 acceptance.
+- Restricted zones are manually configured polygons. Version their coordinates,
+  reference image dimensions, membership anchor/rule, boundary and overlap policy.
+  Zone membership alone does not establish a policy violation.
+- Initial sessions exclude the office occupant; entering people are visitors.
+  IDs are anonymous and session-scoped, not real-world identities. Distinguish a
+  detector class, a tracker ID, and a registered physical asset ID.
+- Visible-person count describes currently observed people under a documented
+  detection/track policy. Inferred office occupancy estimates simultaneous people
+  present using temporal/entry/exit and uncertainty policies. They are separate
+  fields and must not silently substitute for each other or cumulative arrivals.
+  If occupancy inference is unavailable, record it as unknown/null, not zero or
+  a copy of the visible count. Report which count the demo displays and evaluates.
+- Define track confirmation/loss, occupancy uncertainty, entry/exit boundaries,
+  and duration-threshold behavior before evaluating occupancy violations. A brief
+  exceedance and a persistent exceedance must remain distinguishable.
+- Occlusion, missing detections and track loss are not affirmative asset departure.
+  Removal permission has permitted, prohibited and unknown states; unknown is
+  neither authorization nor proof of prohibited removal. Affirmative departure
+  criteria remain to be specified and validated for the later reasoning stage.
+
+### Observation and reproducibility contract
+
+Define a versioned frame-level schema before integrating perception components.
+Keep it separate from the CG-002 inspection schema and the later event/incident
+schema, while retaining source/frame/track references for downstream traceability.
+Required information:
+
+- Run/session ID, source identifier/checksum, source frame index and dimensions;
+  record processing stride/skipped frames and emit records for processed frames
+  with no detections so empty observations are distinguishable from missing data.
+- Video-relative timestamp, units and timing basis. Label frame-index/FPS estimates
+  explicitly; they are not validated presentation timestamps or wall-clock times.
+  Define handling of invalid FPS, variable-rate media and decode failures, and
+  verify annotated-video/structured-output alignment. Preserve unknown timing.
+- Detection class/name, detector confidence, bounding box with an explicit
+  coordinate convention, anonymous session track ID where assigned, and track
+  state. Distinguish observed boxes from predicted/interpolated track positions;
+  do not present detector confidence as a calibrated event probability.
+- Zone ID(s), visible-person count, per-zone counts, and separately labelled
+  inferred occupancy with availability/uncertainty and counting policy.
+- Model and tracker names/versions, weights provenance/checksum, class mapping,
+  thresholds, input resolution, tracking settings, zone/configuration version,
+  software versions, device/hardware, code revision, command and seed where
+  applicable. Retain output locations and run warnings/failures.
+
+### Current phase milestones
+
+All four milestones below are PLANNED, not completed. They replace earlier
+proposed CG-003 meanings and the conflicting current-phase development order.
+The earlier handoff remains a historical record.
+
+| Milestone | Scope and exit criteria |
+| --- | --- |
+| CG-003 — Person detection/tracking | Obtain a consented staged pilot and review camera placement with CG-002; select/document a CPU-compatible pretrained detector/tracker; produce anonymous person tracks, annotated preview and versioned frame observations; record continuity/missed-detection failures and runtime. |
+| CG-004 — Counting/zones | Add versioned manually configured polygon zones and explicit visible/per-zone counting; define the separate occupancy contract and document whether inference is available. Validate boundaries, overlaps, empty frames and track-loss handling using deterministic cases and manually checked footage. This milestone does not require occupancy-violation alerts. |
+| CG-005 — Office-object detection/tracking | Integrate laptop/backpack detection/tracking with the shared observation contract; evaluate stationary, moved/carried and occluded cases, recording ID instability and missed detections. Document detection is optional experimental work. Object tracks alone do not establish removal or authorization. |
+| CG-006 — Demo integration/testing/evaluation | Deliver the documented end-to-end command, playable annotations and aligned structured output; complete the workflow diagram, architecture, dataset/model documentation and evaluation report. Report all eight SYS cases with honest status and dependencies; publish no unexecuted pass claims. Record reproducible failures, remaining limitations and the later implementation roadmap. |
+
+Acceptance protocols must specify footage/annotations, matching and counting
+rules, sample sizes, metrics and thresholds before judging performance. Report
+per-class detection outcomes, track continuity/ID switches, zone/count correctness,
+and CPU runtime/throughput with hardware and configuration. Keep evaluation
+sessions separate from tuning; report failures as well as successful clips.
+Numeric performance targets remain to be agreed, not retrospectively invented.
+No real-time capability, dataset availability or measured performance is asserted.
+
+### Planned system-level cases SYS-01–SYS-08
+
+These definitions are approved test specifications for the full system. Every
+case is currently PLANNED / NOT RUN, not passed. They are separate from the ten
+existing CG-002 automated inspection tests, which use synthetic software fixtures.
+FYP-1 must document these cases and their status; implementing all downstream
+reasoning, evidence extraction and feedback is not an exit gate for its perception
+demo. Unsupported cases remain not run with the missing dependencies recorded.
+
+| ID | Scenario and expected result | Current status |
+| --- | --- | --- |
+| SYS-01 | One visitor, allowance one, no alert. | PLANNED / NOT RUN |
+| SYS-02 | Two simultaneous visitors exceed allowance beyond duration threshold, occupancy violation. | PLANNED / NOT RUN |
+| SYS-03 | Laptop exits with removal permitted, no prohibited-removal alert. | PLANNED / NOT RUN |
+| SYS-04 | Laptop exits with removal prohibited, incident and evidence clip. | PLANNED / NOT RUN |
+| SYS-05 | Laptop temporarily disappears due to occlusion, no confirmed removal. | PLANNED / NOT RUN |
+| SYS-06 | Laptop removal permission unknown, unresolved status. | PLANNED / NOT RUN |
+| SYS-07 | Brief visitor-count exceedance, no persistent violation. | PLANNED / NOT RUN |
+| SYS-08 | Reviewer rejects an alert, feedback stored separately. | PLANNED / NOT RUN |
+
+Before execution, specify input session/ground truth, allowance and duration
+threshold (including boundary/reset semantics), permission state, affirmative
+departure criteria, expected records/alerts, and evidence or feedback checks as
+applicable. Record actual outcome, pass/fail/not-run, configuration/code revision
+and artifact references. A missing alert from an unimplemented engine is not a
+passing negative case. SYS-08 must preserve the original prediction separately
+from reviewer feedback.
+
+### Implementation versus planned work and remaining decisions
+
+- IMPLEMENTED: CG-002 headless inspection, metadata/decoded counts, representative
+  review JPEGs, versioned inspection JSON and inspection tests. Video ingestion
+  remains PARTIAL at system level.
+- PLANNED for FYP-1: CG-003–CG-006, the six deliverables above, and their perception
+  evaluation. This documentation amendment implements none of those capabilities.
+- PLANNED beyond the FYP-1 executable demo: interaction/asset-state inference,
+  structured temporal events, persisted session rules/permissions, context and
+  temporal reasoning, occupancy violations, incidents/explanations, evidence clips,
+  dashboard/API and separately stored human feedback; later comparative research
+  evaluation. Include these in the complete workflow diagram with clear labels.
+- DEFERRED from the current build: audio and accessibility workflows, as recorded
+  in CG-002. Learned temporal modelling remains optional/proposed.
+- Pending: supervisor scope communication, consent/collection, registered asset
+  coordinates, model selection, configuration/schema details, counting/occupancy
+  policies, timing validation, affirmative departure rules and quantitative
+  evaluation targets. No supervisor approval, collected dataset or research
+  result is implied by this amendment.
+- The earlier 2026-10-14 presentation date is historical; its outcome is not
+  recorded. Revised FYP-1 dates remain pending. The earlier year-end 2026 target
+  is a planning target, not evidence of delivery or a newly confirmed schedule.

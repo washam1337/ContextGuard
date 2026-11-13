@@ -64,3 +64,27 @@ selection, schema/timing and zone/count policies, occupancy duration semantics,
 affirmative departure evidence and quantitative acceptance targets. Supervisor
 communication remains pending; approval and past presentation outcomes are not
 asserted. No milestone implementation or system-level pass is claimed here.
+
+## Claude Code handoff — 2026-11-13
+
+Documentation and knowledge-transfer work only. No code, schema, dependency, model,
+dataset or milestone changes. CG-003 has not started.
+
+- Read-only audit by Claude Code: 10/10 CG-002 tests pass (1.63 s, `fyp` interpreter);
+  CI passed on both pushes; `MASTER_PLAN.md` confirmed append-only (original and
+  CG-002 versions are exact byte prefixes); orphan `local-preparation` branch
+  identified as a byte-identical, unpushed copy of `dd765fe`.
+- With owner permission, read all five local Codex transcripts and archived curated,
+  sanitised summaries (raw transcripts not committed).
+- Added: `CLAUDE.md`, `docs/CURRENT_STATE.md`, `docs/history/README.md`,
+  `docs/history/TIMELINE.md`, `docs/history/chatgpt/README.md` and five
+  `docs/history/codex/*.md` session summaries. Appended D17–D19 to `DECISIONS.md`
+  and this entry.
+- Recovered and recorded previously undocumented context: the supervisor feedback, the
+  presentation requirement and the 2026-12-31 completion target.
+- Not changed, pending owner approval: `README.md` (stale; proposal shown to owner),
+  `CONTRIBUTING.md`, the orphan branch.
+
+Next: owner review of these changes; owner-arranged consented pilot recording; then,
+on approval, a CG-003 plan before any implementation. See
+[CURRENT_STATE.md § 9](CURRENT_STATE.md#9-exact-next-recommended-action).

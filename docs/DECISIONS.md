@@ -52,3 +52,20 @@ Consent, pilot collection, registered asset positions and supervisor communicati
 remain pending. The October 14 presentation date is historical with no recorded
 outcome; revised phase dates are pending, and the prior year-end target is not a
 newly confirmed schedule. No dataset or evaluation result is claimed.
+
+## AI-assistant handoff — 2026-11-13
+
+Owner decisions on handing the project to Claude Code. These do not change scope;
+D01–D16 and both `MASTER_PLAN.md` amendments remain in force.
+
+| ID | Accepted working decision |
+| --- | --- |
+| D17 | Claude Code is the sole AI assistant for the whole FYP: architecture, research, technical decisions, planning, implementation, testing, documentation and self-review. ChatGPT (coordinator) and Codex (coding agent) are no longer used; the project must not depend on their conversations. |
+| D18 | Root `CLAUDE.md` holds the persistent agent instructions. Authority when sources conflict: latest explicit owner decisions (recorded here) > FYP-1 amendment > CG-002 amendment > original specification. `docs/CURRENT_STATE.md` is the live status/resume document; `docs/history/` is a non-authoritative record of past sessions and superseded proposals. |
+| D19 | The repository is public (owner's choice, 2026-09-27). Raw AI transcripts are never committed; only curated, sanitised summaries. Recordings, frames of real people, personal data, credentials and weights stay out of Git. |
+
+Recovered context (supervisor feedback relayed on 2026-09-27, the 2026-10-14
+presentation requirement and the 2026-12-31 completion target) is recorded in
+[CURRENT_STATE.md § 6](CURRENT_STATE.md#6-recovered-context-from-codex-prompts-was-not-in-the-repo-before-2026-11-13)
+and [history/TIMELINE.md](history/TIMELINE.md). It is context, not new decisions.
+Open decisions are listed in [CURRENT_STATE.md § 8](CURRENT_STATE.md#8-open-decisions).

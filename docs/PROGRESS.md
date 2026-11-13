@@ -96,3 +96,40 @@ updated for the FYP-1 phase: status box, capabilities table, CG-003–CG-006 roa
 governing-scope links and documentation table. The README diagram and
 `CONTRIBUTING.md` are unchanged. `CLAUDE.md` and `docs/CURRENT_STATE.md` were
 updated to match. Documentation only; CG-003 has not started.
+
+## Combined perception pipeline started — 2026-11-13
+
+Owner decisions D20–D23: presentation on 2026-11-24; CG-003–CG-005 combined into one
+pipeline; Ultralytics YOLO route (AGPL-3.0 accepted); CPU installs approved.
+
+- Installed `torch 2.14.1+cpu`, `torchvision 0.29.2+cpu`, `ultralytics 8.4.212`,
+  `lap 0.5.14` into `fyp`. The dry run showed additions only, and no existing
+  package changed; `pip check` clean. Pinned in `requirements.txt`. Ultralytics
+  telemetry disabled.
+- Downloaded candidate weights yolo26n/s and yolo11n/s to git-ignored `weights/`,
+  with SHA-256 in [MODELS.md](MODELS.md). The one-image CPU smoke test is recorded
+  there and is not a benchmark.
+- Added the recording protocol, consent template and labelling template in
+  [dataset/](dataset/README.md).
+- No pipeline code yet; no footage; no accuracy measured. CG-002 tests: 10/10 pass.
+
+## Combined perception pipeline implemented (synthetic validation) — 2026-11-13
+
+Built the observation-only pipeline for D21, documented in [PIPELINE.md](PIPELINE.md):
+
+- New `contextguard/` package: geometry, zones (`contextguard.zones.v1`), perception
+  adapters (YOLO detector plus one ByteTrack tracker per class), observation records
+  (`contextguard.observation.v1`, observed vs predicted boxes, count policy v1,
+  inferred occupancy always null), video I/O, annotation and pipeline with a
+  `contextguard.run_manifest.v1` provenance file.
+- New `scripts/run_pipeline.py` and `scripts/benchmark_models.py`;
+  `configs/tracker/bytetrack.json`; a draft zones template.
+- Tests: 31 pass (CG-002 ×10 plus 21 new). One is a real YOLO26n smoke test that
+  skips without weights.
+- End-to-end on a synthetic 90-frame clip with YOLO26n: 172/172 expected person
+  detections, 2 track IDs, an 8-frame occlusion handled as lost/predicted then
+  re-found under the same ID, records and annotated frames aligned, 14.7 frames/s
+  overall. Randomised CPU benchmark of the four candidates recorded in
+  [MODELS.md](MODELS.md).
+- Status: PARTIAL. No office footage, laptop or backpack validation yet; the owner
+  records footage by 2026-11-17.

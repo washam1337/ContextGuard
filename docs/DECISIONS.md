@@ -69,3 +69,12 @@ presentation requirement and the 2026-12-31 completion target) is recorded in
 [CURRENT_STATE.md § 6](CURRENT_STATE.md#6-recovered-context-from-codex-prompts-was-not-in-the-repo-before-2026-11-13)
 and [history/TIMELINE.md](history/TIMELINE.md). It is context, not new decisions.
 Open decisions are listed in [CURRENT_STATE.md § 8](CURRENT_STATE.md#8-open-decisions).
+
+## FYP-1 presentation date — 2026-11-13
+
+| ID | Accepted working decision |
+| --- | --- |
+| D20 | The FYP-1 semester presentation is on **2026-11-24**. It will show the initial code and a working CV model detecting people and office objects on office-room footage that the team records itself (consented, staged). This replaces the pending “revised FYP-1 dates” item; 2026-12-31 remains the earlier working-system target. Scope and remaining FYP-1 deliverables for that date are to be confirmed with the owner. |
+| D21 | For the 2026-11-24 presentation, CG-003 (people), CG-004 (zones/counting) and CG-005 (laptop/backpack) are delivered as **one combined perception pipeline**: a single pretrained detector pass covering person, laptop and backpack, a tracker assigning anonymous session IDs, manually configured polygon zones with visible/per-zone counts, and annotated video plus versioned structured output. Their individual FYP-1 exit criteria still apply and are reported separately. Model route and dependency installation still require owner approval. |
+| D22 | Model route for the combined pipeline: **Ultralytics YOLO** (pretrained COCO detector with its built-in tracker), wrapped behind a project-owned detector/tracker interface so it can be replaced. Ultralytics is AGPL-3.0; the owner accepts this, and a matching AGPL-3.0 licence for the repository will be proposed with the README change. The exact model size and version are chosen by a measured CPU benchmark on the team's footage. |
+| D23 | Approved: install CPU-only PyTorch, Ultralytics and the tracker's dependency into the `fyp` environment, pinned in `requirements.txt`, and download pretrained weights outside Git with provenance and SHA-256 recorded. Ultralytics telemetry is to be disabled. |

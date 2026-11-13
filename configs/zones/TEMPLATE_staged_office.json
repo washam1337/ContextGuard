@@ -1,0 +1,16 @@
+{
+  "schema_version": "contextguard.zones.v1",
+  "config_id": "TEMPLATE-staged-office",
+  "draft": true,
+  "notes": "Placeholder polygons for a 1920x1080 view. Redraw on a frame from the real camera position (one config per camera set-up/session) before any evaluation.",
+  "reference_width": 1920,
+  "reference_height": 1080,
+  "boundary_policy": "inclusive",
+  "membership_anchors": {"person": "bottom_center", "default": "center"},
+  "zones": [
+    {"id": "doorway", "label": "Doorway", "kind": "entry",
+     "polygon": [[60, 300], [420, 300], [420, 1080], [60, 1080]]},
+    {"id": "desk", "label": "Desk area", "kind": "asset_area",
+     "polygon": [[1000, 500], [1800, 500], [1860, 1000], [940, 1000]]}
+  ]
+}

@@ -49,9 +49,10 @@ Only the CG-002 recorded-video inspector is implemented.
 | Tests | `unittest`: **10/10 pass** in 1.63 s with the `fyp` interpreter. Tests must be run from the repo root (they import `scripts.inspect_video`). |
 | `MASTER_PLAN.md` integrity | Append-only confirmed. The original 68,258 bytes have SHA-256 `9e161cd5…26af6c1`; the CG-002 version (71,248 bytes, `840f96d4…fb29a2`) is an exact prefix; current full file is `2469ce9f…6525a142` (84,037 bytes). |
 | Interpreter | `/home/w4shm1337/miniconda3/envs/fyp/bin/python`, Python 3.10.21 |
-| Declared deps | `opencv-python==5.0.0.93` only (NumPy 2.2.6 comes with it) |
+| Declared deps | `opencv-python==5.0.0.93`; since 2026-11-13 also `torch==2.14.1+cpu`, `torchvision==0.29.2+cpu`, `ultralytics==8.4.212`, `lap==0.5.14` (D23; see [MODELS.md](MODELS.md)). Ultralytics telemetry is disabled. |
+| Weights | `weights/` (git-ignored): yolo26n/s and yolo11n/s candidates, SHA-256 recorded in [MODELS.md](MODELS.md). None selected yet. |
 | Undeclared but installed in `fyp` | TensorFlow 2.21.0, Keras 3.12.4, tflite-runtime 2.14.0, **ONNX Runtime 1.23.2 (CPU provider)**, Jupyter, matplotlib, Pillow, PyYAML, jsonschema. All predate the project's Codex work; none are used. |
-| Not installed | PyTorch, torchvision, Ultralytics, any tracker library, SciPy, pandas, Pydantic, pytest |
+| Not installed | SciPy, pandas, Pydantic, pytest |
 | Hardware | Intel i5-1135G7 (4 cores / 8 threads), 7.6 GiB RAM, 2 GiB swap, no GPU exposed to WSL2 |
 | OpenCV build | FFmpeg enabled, GStreamer disabled |
 | Real footage / dataset / weights | **None exist** in the repo or ignored folders |
@@ -62,9 +63,7 @@ Only the CG-002 recorded-video inspector is implemented.
 | --- | --- |
 | CG-001/CG-001A audits | Complete (history only) |
 | **CG-002** recorded-video inspection | **IMPLEMENTED**. Synthetic software validation only. Preserve it and schema `contextguard.video_inspection.v1`. |
-| **CG-003** person detection/tracking (includes consented pilot and placement review) | **PLANNED. Next milestone. Blocked on owner approval and on a consented pilot recording.** |
-| CG-004 counting/zones | PLANNED |
-| CG-005 laptop/backpack detection/tracking | PLANNED. Document detection is EXPERIMENTAL (not started). |
+| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>31 tests pass. **Not yet validated on office footage**: waiting for the team's recordings (owner: by Tue 2026-11-17). Document detection is EXPERIMENTAL (not started). |
 | CG-006 integration/testing/evaluation | PLANNED |
 | Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
 | Deliverable 4: dataset and model docs | PLANNED. No dataset, model or weights. |
@@ -74,9 +73,9 @@ Only the CG-002 recorded-video inspector is implemented.
 
 ## 5. Active gates (owner instructions of 2026-11-13, until lifted)
 
-- Do **not** begin CG-003 implementation.
-- Do not modify existing schemas.
-- Do not install packages or download models.
+- The combined CG-003–CG-005 pipeline is approved (D21–D23); nothing beyond it.
+- Do not modify existing schemas (new schemas get new version names).
+- No further package installs or model downloads beyond D23 without approval.
 - Do not delete `local-preparation`.
 - Do not rewrite historical documentation (append only).
 - Do not commit or push without explicit owner approval. (The handoff commit, the
@@ -92,8 +91,10 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
   Whether the narrowed scope has been communicated to the supervisor is **unknown**.
 - The 2026-10-14 presentation needed “a concrete dataset solution and development
   roadmap”. **Its outcome is unrecorded.**
-- The completion target is **2026-12-31**. As of 2026-11-13 that is about 7 weeks
-  away, and revised FYP-1 dates are still pending.
+- The completion target is **2026-12-31**.
+- **FYP-1 presentation: 2026-11-24 (D20, owner, 2026-11-13).** It will show the
+  initial code and a working CV model detecting on office footage that the team
+  records itself. Eleven days remain from 2026-11-13; this is now the governing deadline.
 
 ## 7. Known gaps and inconsistencies (fixes need owner approval)
 
@@ -162,22 +163,28 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 ## 9. Exact next recommended action
 
 1. *(Done 2026-11-13: handoff committed and pushed; README updated.)*
-2. **Owner:** answer the open questions that only the owner can answer (§8
-   governance/data): revised FYP-1 deadline and format, presentation outcome,
-   supervisor communication, consent arrangements, whether any footage exists.
-3. **Owner (critical path, human-only):** arrange a short **consented staged pilot
-   recording**: fixed camera, visible doorway, laptop and backpack at their starting
-   positions, 1–3 visitors entering and leaving. Store it outside the repository.
-4. **Claude, after the owner approves starting CG-003:** produce a *CG-003 plan* first,
-   with no code. The plan covers:
-   - the pilot recording and consent checklist;
-   - placement-review steps using `scripts/inspect_video.py`;
-   - a detector/tracker shortlist with licence and CPU-runtime criteria and a benchmark method;
-   - draft observation schema v1;
-   - the evaluation protocol for missed detections, ID switches and runtime;
-   - the list of dependencies to install, for owner approval.
+Deadline: **2026-11-24** presentation (D20). Working schedule (2026-11-13 plan):
+Nov 14–15 test clip + pipeline code; Nov 16–17 main recording session; Nov 17–19
+zones/counting and tuning (tuning takes only); Nov 19–20 owner labels evaluation
+takes; Nov 21–22 evaluation report, workflow diagram, docs, SYS status table;
+Nov 23 rehearsal and buffer.
 
-   Implementation starts only after the plan is approved.
+2. **Owner (critical path, human-only):** collect signed consent
+   ([template](dataset/CONSENT_FORM_TEMPLATE.md)), then record a 30–60 s **test clip**
+   following [the recording protocol](dataset/RECORDING_PROTOCOL.md). Store it outside
+   the repository and tell Claude its path.
+3. *(Done 2026-11-13: combined pipeline built and verified on synthetic fixtures;
+   see [PIPELINE.md](PIPELINE.md).)*
+4. **Claude, when footage arrives (owner: by Tue 2026-11-17):**
+   - run the inspector placement check on each clip;
+   - draw a real zone config for the camera set-up;
+   - benchmark the four candidate weights on **tuning takes only**;
+   - propose the model and thresholds;
+   - run the pipeline on the tuning takes and review the failures;
+   - write the evaluation plan (matching rules, metrics) **before** scoring the
+     evaluation takes.
+5. **Owner:** confirm which other FYP-1 deliverables are due on Nov 24, and the
+   camera, volunteers and recording date.
 
 ## 10. How to resume in a fresh Claude Code session
 

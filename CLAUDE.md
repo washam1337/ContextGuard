@@ -43,6 +43,9 @@ requirements. Never claim supervisor approval: none is recorded, and
 | `MASTER_PLAN.md` | Full spec plus two dated amendments. **Append-only**; never edit existing text. |
 | `docs/DECISIONS.md` | Decision log (D01…). Append new D-numbers; never rewrite old ones. |
 | `docs/PROGRESS.md` | Dated status log. Append. |
+| `docs/PIPELINE.md` | Perception pipeline usage, output schema, count policy, limitations |
+| `docs/MODELS.md` | Installed packages, candidate weights (SHA-256), benchmarks, licences |
+| `docs/dataset/` | Recording protocol, consent template, labelling template |
 | `docs/VIDEO_INSPECTION.md` | CG-002 inspector reference |
 | `docs/HANDOFF.md` | Historical CG-002 verification record (do not rewrite) |
 | `docs/history/` | Timeline, Codex session summaries, ChatGPT notes, superseded proposals |

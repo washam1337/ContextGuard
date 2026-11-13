@@ -25,9 +25,10 @@ laptop and a backpack. Planned scenarios cover excess simultaneous visitor
 occupancy and observed asset departure inconsistent with session permissions.
 Potential anomalies require human review; the system must not infer criminal intent.
 
-> **Current milestone: recorded-video inspection (CG-002).** The runnable tool
-> inspects local recordings and exports a JSON report and representative frames.
-> Detection, tracking, context reasoning, and anomaly decisions are planned.
+> **Current phase: FYP-1 perception foundation.** Recorded-video inspection
+> (CG-002) is complete: it inspects local recordings and exports a JSON report and
+> representative frames. Next milestone: person detection and tracking (CG-003),
+> planned. Detection, tracking, context reasoning, and anomaly decisions are planned.
 > Validation currently uses synthetic software fixtures; no research results or
 > real-office performance claims are available.
 
@@ -40,7 +41,8 @@ Potential anomalies require human review; the system must not infer criminal int
 | Reported metadata, timing limitations, and decode warnings | Implemented |
 | First, middle, and last decoded-frame JPEG exports | Implemented |
 | Versioned JSON inspection report | Implemented |
-| Person/asset detection, tracking, zones, and structured events | Planned |
+| Person and laptop/backpack detection, tracking, zones, and people counting (FYP-1 demo) | Planned |
+| Structured events and session permissions | Planned |
 | Expected-versus-observed reasoning and evidence-backed review | Planned |
 | Dashboard, feedback, and comparative evaluation | Planned |
 | Audio and accessibility workflows | Deferred from the current build |
@@ -130,16 +132,21 @@ treated as proof that an asset departed.
 
 - [x] Record the refined project scope and working decisions.
 - [x] Build and test a recorded-video inspection utility.
-- [ ] Collect a consented staged pilot and review camera placement.
-- [ ] Establish a CPU-compatible pretrained detection/tracking baseline.
-- [ ] Add zones, asset state, structured events, and session permissions.
-- [ ] Compare observed activity against expected context using deterministic rules.
-- [ ] Produce traceable evidence windows and human-review explanations.
-- [ ] Evaluate baselines, false positives, and the contribution of context.
+- [x] Define the FYP-1 deliverables, milestones, and system test cases.
+- [ ] **CG-003** Consented staged pilot, camera-placement review, CPU pretrained person detection and tracking.
+- [ ] **CG-004** Manually configured polygon zones and people counting.
+- [ ] **CG-005** Laptop and backpack detection and tracking.
+- [ ] **CG-006** End-to-end recorded-video demo: annotated video plus structured output, with evaluation.
+- [ ] Later: asset state, structured events, session permissions, and expected-versus-observed rules.
+- [ ] Later: traceable evidence windows, human-review explanations, and stored feedback.
+- [ ] Later: evaluate baselines, false positives, and the contribution of context.
 
-The [CG-002 scope amendment](MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27)
-governs the current build. The broader original specification is retained for
-traceability; learned temporal modelling remains optional/proposed.
+The [FYP-1 scope amendment](MASTER_PLAN.md#fyp-1-scope-amendment--2026-10-24)
+governs the current phase, building on the
+[CG-002 scope amendment](MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27). The
+broader original specification is retained for traceability; learned temporal
+modelling remains optional/proposed. Live status is in
+[docs/CURRENT_STATE.md](docs/CURRENT_STATE.md).
 
 ## Development
 
@@ -159,7 +166,8 @@ same suite on Python 3.10.
 ContextGuard/
 ├── scripts/inspect_video.py    # Runnable inspection CLI
 ├── tests/test_inspect_video.py # Unit and integration checks
-├── docs/                      # Usage, decisions, progress, and handoff
+├── docs/                      # Status, usage, decisions, progress, and history
+├── CLAUDE.md                  # AI coding-agent instructions
 ├── .github/                   # CI and contribution templates
 ├── MASTER_PLAN.md             # Project specification and scope amendment
 ├── CONTRIBUTING.md            # Development and contribution guidance
@@ -170,11 +178,14 @@ ContextGuard/
 
 | Document | Purpose |
 | --- | --- |
+| [Current state](docs/CURRENT_STATE.md) | Live status, open decisions, and next action |
 | [Video inspection guide](docs/VIDEO_INSPECTION.md) | Report format, limitations, and troubleshooting |
 | [Master plan](MASTER_PLAN.md) | Research direction and authoritative scope |
 | [Working decisions](docs/DECISIONS.md) | Accepted scope refinements and pending decisions |
 | [Progress](docs/PROGRESS.md) | Implementation status by component |
-| [CG-002 handoff](docs/HANDOFF.md) | Historical verification record and next milestone |
+| [CG-002 handoff](docs/HANDOFF.md) | Historical CG-002 verification record |
+| [Project history](docs/history/README.md) | Timeline and archived development sessions |
+| [Agent instructions](CLAUDE.md) | Rules for AI-assisted development of this repository |
 | [Contributing](CONTRIBUTING.md) | Local checks and contribution expectations |
 
 ## Research data and licensing

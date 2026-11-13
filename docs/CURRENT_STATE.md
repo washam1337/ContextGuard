@@ -42,7 +42,7 @@ Only the CG-002 recorded-video inspector is implemented.
 | Item | State |
 | --- | --- |
 | Branch | `main`, tracking `origin/main` (public: `github.com/washam1337/ContextGuard`) |
-| Commits | `6791c95` docs: finalize ContextGuard FYP-1 scope and milestones (2026-10-24) is the last pushed commit. The 2026-11-13 documentation-only handoff commit (“docs: complete Claude Code project handoff”) sits on top of it; it was approved and **not yet pushed** at the time of writing. Run `git log --oneline -3` and `git status` to confirm. |
+| Commits | 2026-11-13: `f2969af` “docs: complete Claude Code project handoff” (pushed), followed by a README/status update commit (pushed with owner approval). Run `git log --oneline -3` and `git status` to confirm. |
 | Git author | Repository-local identity set 2026-11-13 to the owner's GitHub `noreply` address (owner approved). Earlier history was not rewritten. |
 | Other refs | `local-preparation` → `e931d52`: orphan, never pushed, tree identical to `dd765fe`. Kept on purpose; **do not delete without owner approval.** |
 | CI | GitHub Actions passed on both pushes (runs 36336320051, 40039326735) |
@@ -79,8 +79,8 @@ Only the CG-002 recorded-video inspector is implemented.
 - Do not install packages or download models.
 - Do not delete `local-preparation`.
 - Do not rewrite historical documentation (append only).
-- Do not commit or push without explicit owner approval. The handoff commit was
-  approved on 2026-11-13; pushing it awaits approval.
+- Do not commit or push without explicit owner approval. (The handoff commit, the
+  README update and their push were approved on 2026-11-13.)
 - Do not modify `README.md` without first showing the owner the proposed change and getting approval.
 
 When the owner lifts a gate, record it in `DECISIONS.md` and update this section.
@@ -95,11 +95,12 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 - The completion target is **2026-12-31**. As of 2026-11-13 that is about 7 weeks
   away, and revised FYP-1 dates are still pending.
 
-## 7. Known gaps and inconsistencies (none fixed yet; fixes need owner approval)
+## 7. Known gaps and inconsistencies (fixes need owner approval)
 
-1. `README.md` is stale: it still says “Current milestone: CG-002” and names only
-   the CG-002 amendment as governing scope. Its roadmap and diagram predate FYP-1.
-   A proposed update awaits owner review.
+1. `README.md` was updated for FYP-1 on 2026-11-13 (status box, capabilities,
+   roadmap, docs table). Its Mermaid diagram still shows only the original
+   inspection → planned pipeline. The complete workflow diagram is FYP-1
+   deliverable 1 and remains PLANNED.
 2. `CONTRIBUTING.md` points only to the CG-002 amendment.
 3. The original “Repository AI Operating Contract” at the top of `MASTER_PLAN.md`
    (development order, first vertical slice, accessibility first-class) is
@@ -160,10 +161,10 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 
 ## 9. Exact next recommended action
 
-1. **Owner:** approve pushing the 2026-11-13 handoff commit to `origin/main` (if
-   `git status` still shows `main` ahead of `origin/main`).
-2. **Owner:** approve, edit or reject the proposed README update (shown in the
-   2026-11-13 handoff report, not applied).
+1. *(Done 2026-11-13: handoff committed and pushed; README updated.)*
+2. **Owner:** answer the open questions that only the owner can answer (§8
+   governance/data): revised FYP-1 deadline and format, presentation outcome,
+   supervisor communication, consent arrangements, whether any footage exists.
 3. **Owner (critical path, human-only):** arrange a short **consented staged pilot
    recording**: fixed camera, visible doorway, laptop and backpack at their starting
    positions, 1–3 visitors entering and leaving. Store it outside the repository.

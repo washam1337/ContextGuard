@@ -29,8 +29,8 @@ The student is the project owner and final decision-maker.
    slice, MVP table, audio/accessibility requirements and keys/remote examples do
    **not** govern the current build.
 
-Code and test output beat documentation claims; verify, then fix the docs. `README.md`
-and `CONTRIBUTING.md` are currently stale (they still say CG-002 is current).
+Code and test output beat documentation claims; verify, then fix the docs.
+`CONTRIBUTING.md` is currently stale (it still points only to the CG-002 amendment).
 `docs/history/` and `docs/HANDOFF.md` are records, never sources of active
 requirements. Never claim supervisor approval: none is recorded, and
 “user/coordinator approval” means the owner's approval only.

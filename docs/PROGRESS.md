@@ -88,3 +88,11 @@ dataset or milestone changes. CG-003 has not started.
 Next: owner review of these changes; owner-arranged consented pilot recording; then,
 on approval, a CG-003 plan before any implementation. See
 [CURRENT_STATE.md § 9](CURRENT_STATE.md#9-exact-next-recommended-action).
+
+## README brought up to date — 2026-11-13
+
+With owner approval, the handoff commit `f2969af` was pushed and `README.md` was
+updated for the FYP-1 phase: status box, capabilities table, CG-003–CG-006 roadmap,
+governing-scope links and documentation table. The README diagram and
+`CONTRIBUTING.md` are unchanged. `CLAUDE.md` and `docs/CURRENT_STATE.md` were
+updated to match. Documentation only; CG-003 has not started.

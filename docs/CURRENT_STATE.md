@@ -169,10 +169,9 @@ zones/counting and tuning (tuning takes only); Nov 19–20 owner labels evaluati
 takes; Nov 21–22 evaluation report, workflow diagram, docs, SYS status table;
 Nov 23 rehearsal and buffer.
 
-2. **Owner (critical path, human-only):** collect signed consent
-   ([template](dataset/CONSENT_FORM_TEMPLATE.md)), then record a 30–60 s **test clip**
-   following [the recording protocol](dataset/RECORDING_PROTOCOL.md). Store it outside
-   the repository and tell Claude its path.
+2. **Owner (critical path, human-only):** consent is obtained (D24). Record the clips
+   following [the recording protocol](dataset/RECORDING_PROTOCOL.md) by Tue 2026-11-17
+   into `~/contextguard-data/raw/` (created, outside the repository) and tell Claude.
 3. *(Done 2026-11-13: combined pipeline built and verified on synthetic fixtures;
    see [PIPELINE.md](PIPELINE.md).)*
 4. **Claude, when footage arrives (owner: by Tue 2026-11-17):**

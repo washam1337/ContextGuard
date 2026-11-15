@@ -188,3 +188,33 @@ reading the GitHub repository, relayed by the owner. The owner delegated the fix
 - Still waiting for the owner: what to do about the personal details in
   `MASTER_PLAN.md` lines 84–85.
 - Owner decision on the personal details in `MASTER_PLAN.md`: leave them as they are (D28).
+
+### 2026-11-15: second review follow-up (cloud review of `881d44a`)
+
+- `CURRENT_STATE.md`: decision-log range now D01–D28; commits row names `881d44a`;
+  CI row names run 43729300017.
+- Recording protocol: naming example changed to an S02 file; added the placement
+  test-clip rule `cg_<YYYYMMDD>_S00_TEST_t1.mp4` (session S00, neither tuning nor
+  evaluation); inspector example uses the test clip. Labelling template example rows
+  now use an S02 file.
+- Checked YOLO26 NMS behaviour in Ultralytics 8.4.212: the default `.pt` predict path
+  uses NMS for both YOLO26 and YOLO11, so `--iou` applies to both. Recorded in
+  `MODELS.md`.
+- Confirmed by code reading: zones are not re-scaled to the decoded frame size when
+  the reported size differs from both the decoded size and the zone reference size
+  (`pipeline.py`). Fix proposed, awaiting owner approval.
+- Waiting for footage: decoded vs reported size, timing drift and the seated-person
+  anchor check.
+
+### 2026-11-15: zone-scaling fix (owner approved)
+
+- `contextguard/pipeline.py`: zones are now scaled from the zone reference size to
+  the **decoded** frame size, never the reported metadata size. Warnings are added
+  when the decoded size differs from the reported size and when the frame size
+  changes mid-video. No schema change (`zones.applied_scale` already existed).
+- New test `test_zones_scale_to_decoded_size_not_reported_size` (reported 320×240,
+  decoded 160×120, reference 640×480). It fails on the old code (scale 0.5) and
+  passes with the fix (scale 0.25).
+- Tests: 32 run, 32 pass, 0 skipped.
+- `CURRENT_STATE.md` gap 11 marked fixed; `PIPELINE.md` scaling note and test count updated; `README.md` test count 31→32 (owner approved).
+

@@ -167,9 +167,11 @@ def run_pipeline(cfg: PipelineConfig,
     try:
         src = FrameSource(source)
         meta = src.metadata
-        if zones and meta.reported_width and meta.reported_height:
-            zones, zw = zones.scaled_for(meta.reported_width, meta.reported_height)
-            warnings += zw
+        # Zones are scaled against the size of the *decoded* frames, never the reported
+        # metadata size, which can differ (e.g. phone rotation metadata). The loaded
+        # config is kept unscaled so every rescale starts from the reference size.
+        base_zones = zones
+        zones_frame_size: tuple[int, int] | None = None
         if zones and zones.draft:
             warnings.append(f"Zone configuration {zones.config_id!r} is marked draft.")
         if cfg.write_video:
@@ -185,9 +187,20 @@ def run_pipeline(cfg: PipelineConfig,
                 if cfg.max_frames is not None and stats["frames_processed"] >= cfg.max_frames:
                     break
                 h, w = frame.image.shape[:2]
-                if zones and (zones.reference_width, zones.reference_height) != (w, h) and zones.scale == (1.0, 1.0):
-                    zones, zw = zones.scaled_for(w, h)
-                    warnings += zw
+                if base_zones and zones_frame_size != (w, h):
+                    if zones_frame_size is None:
+                        reported = (meta.reported_width, meta.reported_height)
+                        if None not in reported and reported != (w, h):
+                            warnings.append(
+                                f"Decoded frame size {w}x{h} differs from the reported size "
+                                f"{reported[0]}x{reported[1]}; zones are scaled to the decoded frames.")
+                    else:
+                        warnings.append(
+                            f"Frame size changed from {zones_frame_size[0]}x{zones_frame_size[1]} to "
+                            f"{w}x{h} at source frame {frame.index}; zones re-scaled.")
+                    zones, zw = base_zones.scaled_for(w, h)
+                    warnings += [x for x in zw if x not in warnings]
+                    zones_frame_size = (w, h)
                 result = perception.process(frame.image)
                 if result.inference_ms is not None:
                     stats["inference_ms"].append(result.inference_ms)

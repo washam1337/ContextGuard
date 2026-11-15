@@ -192,13 +192,13 @@ With the environment activated, run the existing suite:
 python -B -m unittest discover -s tests -v
 ```
 
-Run it from the repository root. The 31 tests cover:
+Run it from the repository root. The 32 tests cover:
 
 - the video inspector (10);
 - zone geometry and configuration (8);
 - observation records and the counting policy (5);
 - per-class tracking with Ultralytics' ByteTrack (3);
-- the end-to-end pipeline with a scripted detector (4);
+- the end-to-end pipeline with a scripted detector (5);
 - a real-model smoke test (1), which is skipped unless `weights/yolo26n.pt` is present.
 
 Fixtures are generated in temporary storage and are **software test data, not a

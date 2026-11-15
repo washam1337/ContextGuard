@@ -113,19 +113,22 @@ Each object:
   marked `draft`, and every run that uses it carries a warning.
 - Membership anchor: `bottom_center` (feet) for people, `center` for objects.
   Boundaries are inclusive; zones may overlap.
-- Polygons are scaled from `reference_width`/`height` to the video size, with a
-  warning if the aspect ratio differs.
+- Polygons are scaled from `reference_width`/`height` to the size of the **decoded
+  frames** (not the size the file's metadata reports, which can differ, e.g. with
+  phone rotation metadata). The run warns if the aspect ratio differs, if the decoded
+  size differs from the reported size, or if the frame size changes mid-video. The
+  scale used is recorded in the manifest as `zones.applied_scale`.
 - Kinds: `entry`, `asset_area`, `restricted`, `general`. Being in a `restricted`
   zone is an observation, **not** a violation.
 
 ## Verified so far (2026-11-13; synthetic only)
 
-- 31 unit/integration tests pass:
+- 32 unit/integration tests pass (count updated 2026-11-15):
   - CG-002 ×10;
   - zones ×8;
   - observation schema and counting ×5;
   - class-wise ByteTrack with the real Ultralytics tracker ×3;
-  - pipeline with a scripted fake detector ×4;
+  - pipeline with a scripted fake detector ×5;
   - real YOLO26n smoke test ×1 (skipped in CI, where weights are absent).
 - End-to-end run with YOLO26n on a 90-frame synthetic clip (two people sliding,
   one hidden for 8 frames):

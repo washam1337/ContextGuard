@@ -34,7 +34,7 @@ Implemented so far:
 | Current scope, deliverables, milestones, SYS cases, observation contract | [`MASTER_PLAN.md` § FYP-1 amendment](../MASTER_PLAN.md#fyp-1-scope-amendment--2026-10-24) |
 | Narrowed domain, assets, anomalies, deferrals | [`MASTER_PLAN.md` § CG-002 amendment](../MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27) |
 | Research question, ablation, metrics, error analysis, ethics, novelty limits | `MASTER_PLAN.md` §1, §10, §11, §13, §24, §30, §39 (original spec, still valid as research direction) |
-| Decision log D01–D24 | [`docs/DECISIONS.md`](DECISIONS.md) |
+| Decision log D01–D28 | [`docs/DECISIONS.md`](DECISIONS.md) |
 | Perception pipeline usage, output schema, count policy | [`docs/PIPELINE.md`](PIPELINE.md) |
 | Packages, candidate weights, licences, benchmarks | [`docs/MODELS.md`](MODELS.md) |
 | Recording protocol, consent and labelling templates | [`docs/dataset/`](dataset/README.md) |
@@ -48,11 +48,11 @@ Implemented so far:
 | Item | State |
 | --- | --- |
 | Branch | `main`, tracking `origin/main` (public: `github.com/washam1337/ContextGuard`) |
-| Commits | Last pushed: `d2f2cfa` (D24, 2026-11-14), after `a15c850` (pipeline) and `f2969af` (handoff). Run `git log --oneline -5` and `git status` to confirm the current state. |
+| Commits | Latest: the zone-scaling fix and second review follow-up (2026-11-15), after `881d44a` (review fixes and AGPL-3.0 licence), `d2f2cfa` (D24), `a15c850` (pipeline) and `f2969af` (handoff). Run `git log --oneline -5` and `git status` to confirm the current state. |
 | Git author | Repository-local identity set 2026-11-13 to the owner's GitHub `noreply` address (owner approved). Earlier history was not rewritten. |
 | Other refs | `local-preparation` → `e931d52`: orphan, never pushed, tree identical to `dd765fe`. Kept on purpose; **do not delete without owner approval.** |
-| CI | GitHub Actions passed on every push to `main`. The last verified run is 43440801718 (`a15c850`, installs torch/ultralytics). Check `gh run list` for later pushes. |
-| Tests | `unittest`: **31 run, 31 pass, 0 skipped** (2026-11-15, `fyp` interpreter, repo root): CG-002 ×10 and pipeline ×21. The YOLO smoke test runs only when `weights/yolo26n.pt` exists, and is skipped in CI. **Run from the repo root**: tests import `contextguard` and `scripts`, which are not installed packages. |
+| CI | GitHub Actions passed on every push to `main`. The last verified run is 43729300017 (`881d44a`). Check `gh run list` for later pushes. |
+| Tests | `unittest`: **32 run, 32 pass, 0 skipped** (2026-11-15, `fyp` interpreter, repo root): CG-002 ×10 and pipeline ×22. The YOLO smoke test runs only when `weights/yolo26n.pt` exists, and is skipped in CI. **Run from the repo root**: tests import `contextguard` and `scripts`, which are not installed packages. |
 | `MASTER_PLAN.md` integrity | Append-only confirmed. The original 68,258 bytes have SHA-256 `9e161cd5…26af6c1`; the CG-002 version (71,248 bytes, `840f96d4…fb29a2`) is an exact prefix; current full file is `2469ce9f…6525a142` (84,037 bytes). |
 | Interpreter | `/home/w4shm1337/miniconda3/envs/fyp/bin/python`, Python 3.10.21 |
 | Declared deps | `opencv-python==5.0.0.93`; since 2026-11-13 also `torch==2.14.1+cpu`, `torchvision==0.29.2+cpu`, `ultralytics==8.4.212`, `lap==0.5.14` (D23; see [MODELS.md](MODELS.md)). Ultralytics telemetry is disabled. |
@@ -69,7 +69,7 @@ Implemented so far:
 | --- | --- |
 | CG-001/CG-001A audits | Complete (history only) |
 | **CG-002** recorded-video inspection | **IMPLEMENTED**. Synthetic software validation only. Preserve it and schema `contextguard.video_inspection.v1`. |
-| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>31 tests pass. **Not yet validated on office footage**: waiting for the team's recordings (owner: by Tue 2026-11-17). Document detection is EXPERIMENTAL (not started). |
+| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>32 tests pass. **Not yet validated on office footage**: waiting for the team's recordings (owner: by Tue 2026-11-17). Document detection is EXPERIMENTAL (not started). |
 | CG-006 integration/testing/evaluation | PLANNED |
 | Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
 | Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark; [dataset/](dataset/README.md) has the recording protocol and consent and labelling templates. No recordings, no selected model, no accuracy results yet. |
@@ -131,6 +131,12 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
    pass, JPEG encode failure, permission-denied input. Never run on real footage.
 10. The `fyp` environment contains large undeclared packages, which could mask
     missing declarations once new dependencies are added.
+11. *(Fixed 2026-11-15, owner approved; regression test added.)* Zone scaling bug (found by review, confirmed by code reading):
+    `run_pipeline` scales zones to the video's *reported* size. If the decoded frames
+    differ from that size (e.g. phone rotation metadata) and the reported size also
+    differs from the zone reference size, zones are never re-scaled to the real
+    frames. Now zones are scaled from the reference size to the decoded frame size,
+    with warnings on a reported/decoded mismatch or a mid-video size change.
 
 ## 8. Open decisions
 
@@ -197,8 +203,11 @@ Licence: AGPL-3.0 (D25).
 3. *(Done 2026-11-13: combined pipeline built and verified on synthetic fixtures;
    see [PIPELINE.md](PIPELINE.md).)*
 4. **Claude, when footage arrives (owner: by Tue 2026-11-17):**
+   - on the S00 test clip (`cg_<date>_S00_TEST_t1.mp4`): decoded vs reported frame
+     size (gap 11 check) and timing drift (`estimated_seconds` vs `decoder_pos_msec`);
    - run the inspector placement check on each clip;
-   - draw a real zone config for the camera set-up;
+   - check where seated people's `bottom_center` anchor lands (desk may hide feet),
+     then draw a real zone config for the camera set-up;
    - benchmark the four candidate weights on **session S01 (tuning) only**;
    - propose the model and thresholds;
    - run the pipeline on the tuning takes and review the failures;

@@ -10,14 +10,18 @@ import json
 import shutil
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
+from unittest import mock
 
 import cv2
 import numpy as np
 
 from contextguard.observation import validate_observation
 from contextguard.perception import Detection, FramePerception, TrackObservation
+from contextguard import pipeline as pipeline_module
 from contextguard.pipeline import PipelineConfig, PipelineError, run_pipeline
+from contextguard.video import FrameSource
 
 ZONES = {
     "schema_version": "contextguard.zones.v1", "config_id": "fixture-v1", "reference_width": 160,
@@ -144,6 +148,34 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(m["status"], "failed")
         self.assertIn("Cannot open video", m["error"])
 
+
+    def test_zones_scale_to_decoded_size_not_reported_size(self):
+        """Reported size (320x240) differs from both the decoded frames (160x120) and the
+        zone reference (640x480), as with phone rotation metadata. Zones must follow
+        the decoded frames: scale 0.25, so the left-half zone spans x 0-80."""
+        zones = dict(ZONES, reference_width=640, reference_height=480,
+                     zones=[{"id": "left", "kind": "entry",
+                             "polygon": [[0, 0], [320, 0], [320, 480], [0, 480]]}])
+        self.zones.write_text(json.dumps(zones))
+
+        class MisreportingSource(FrameSource):
+            def __init__(self, path):
+                super().__init__(path)
+                self.metadata = replace(self.metadata, reported_width=320, reported_height=240)
+
+        class RightSidePerson(FakePerception):
+            def process(self, frame):                  # anchor x = 120: outside 0-80
+                det = Detection(0, "person", 0.9, (100, 20, 140, 110))
+                return FramePerception([det], [TrackObservation("person:0001", "tracked",
+                                                                det.box, 0, "person", 0)], inference_ms=1.0)
+
+        out = self.dir / "scaled"
+        with mock.patch.object(pipeline_module, "FrameSource", MisreportingSource):
+            m = run_pipeline(PipelineConfig(input=self.video, output=out, zones=self.zones, max_frames=3),
+                             perception_factory=lambda c, t: RightSidePerson())
+        self.assertEqual(m["zones"]["applied_scale"], [0.25, 0.25])
+        self.assertTrue(all(r["counts"]["per_zone"]["left"]["person"] == 0 for r in self.read(out)))
+        self.assertTrue(any("differs from the reported size 320x240" in w for w in m["warnings"]))
 
 if __name__ == "__main__":
     unittest.main()

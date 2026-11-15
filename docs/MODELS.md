@@ -84,6 +84,18 @@ processed the same 90 frames at 14.7 frames/s overall.
 contains no office footage, no laptops and no backpacks. Model choice will be made
 on the team's tuning takes.
 
+## NMS and `--iou` (checked 2026-11-15, Ultralytics 8.4.212)
+
+YOLO26 has an optional NMS-free (one-to-one) head, but in 8.4.212 a `.pt` model run
+with the default `nms=None`, as this pipeline does, uses the **one-to-many head
+followed by standard NMS** (`end2end` is `False` for both yolo26n and yolo11n). So
+`--iou` applies equally to the YOLO26 and YOLO11 candidates, and the benchmark
+compares them under the same post-processing. Measured on `bus.jpg`, conf 0.10: both
+models give 6 boxes at iou 0.1 and 9 at iou 0.9. Passing `nms=False` would switch
+YOLO26 to its NMS-free head (7 boxes in the same test); the pipeline does not do
+this. If that mode is ever used, the manifest's `iou` value would no longer apply
+to YOLO26 and must be recorded as such.
+
 ## Known limitations to evaluate
 
 - Backpacks are a small, often-occluded COCO class; expect lower recall than for people.

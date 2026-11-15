@@ -31,8 +31,9 @@ presentation (D20, D21). Synthetic test fixtures are not part of this dataset.
 
 Do **not** move the camera between takes. If it moves, start a new session ID.
 
-Before the main session, record one 30–60 s **test clip** and run the inspector
-(section 5) to check placement.
+Before the main session, record one 30–60 s **test clip**, named
+`cg_<YYYYMMDD>_S00_TEST_t1.mp4` (section 4), and run the inspector (section 5) to
+check placement.
 
 ## 3. Shot list
 
@@ -63,8 +64,12 @@ until the later reasoning stage exists.
 - Store footage **outside this repository**, e.g. `~/contextguard-data/raw/`. It
   must never be committed; this repository is public.
 - Name each file `cg_<YYYYMMDD>_<session>_<scenario>_t<take>.mp4`,
-  e.g. `cg_20261116_S01_SC03_t2.mp4`. A session (`S01`, `S02`…) is one continuous
-  camera set-up.
+  e.g. `cg_20261117_S02_SC03_t2.mp4` (session S02, scenario SC03, take 2). A
+  session (`S01`, `S02`…) is one continuous camera set-up.
+- The placement **test clip** uses session `S00` and scenario `TEST`, e.g.
+  `cg_20261117_S00_TEST_t1.mp4`. It belongs to neither S01 (tuning) nor S02
+  (evaluation): it is used only to check camera placement, decoded frame size and
+  timing, never for tuning thresholds or for reported results.
 - **Never edit, trim or re-encode the originals.** Processing writes to new folders.
 - Fill in the session log below for every session.
 
@@ -72,8 +77,8 @@ until the later reasoning stage exists.
 
 ```bash
 /home/w4shm1337/miniconda3/envs/fyp/bin/python -B scripts/inspect_video.py \
-  --input ~/contextguard-data/raw/cg_20261116_S01_SC02_t1.mp4 \
-  --output ~/contextguard-data/inspection/cg_20261116_S01_SC02_t1
+  --input ~/contextguard-data/raw/cg_20261117_S00_TEST_t1.mp4 \
+  --output ~/contextguard-data/inspection/cg_20261117_S00_TEST_t1
 ```
 
 Check the three exported frames: are the doorway, laptop and backpack visible and

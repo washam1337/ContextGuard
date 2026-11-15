@@ -1,9 +1,9 @@
 # Current state and resume guide
 
-**Last updated:** 2026-11-13 by Claude Code (handoff from Codex/ChatGPT).
+**Last updated:** 2026-11-15 by Claude Code (doc-accuracy review after D24).
 This is a living document. Update it at the end of every milestone or significant
-session. Everything below marked *verified* was checked by running commands on
-2026-11-13. Nothing here is a research result.
+session. The state in §3 was re-checked by running commands on 2026-11-15.
+Nothing here is a research result.
 
 ## 1. One-paragraph orientation
 
@@ -21,7 +21,10 @@ from one fixed camera, over time, to produce explainable, evidence-backed
 The project is in **FYP-1**: the perception foundation plus the full system design.
 The FYP-1 executable demo is
 `recorded video → detection → tracking → zones/counting → annotated video + structured output`.
-Only the CG-002 recorded-video inspector is implemented.
+Implemented so far:
+- the CG-002 recorded-video inspector (IMPLEMENTED);
+- the combined CG-003/004/005 perception pipeline (PARTIAL: tested on synthetic
+  fixtures only; no office footage yet).
 
 ## 2. Where knowledge lives
 
@@ -31,22 +34,25 @@ Only the CG-002 recorded-video inspector is implemented.
 | Current scope, deliverables, milestones, SYS cases, observation contract | [`MASTER_PLAN.md` § FYP-1 amendment](../MASTER_PLAN.md#fyp-1-scope-amendment--2026-10-24) |
 | Narrowed domain, assets, anomalies, deferrals | [`MASTER_PLAN.md` § CG-002 amendment](../MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27) |
 | Research question, ablation, metrics, error analysis, ethics, novelty limits | `MASTER_PLAN.md` §1, §10, §11, §13, §24, §30, §39 (original spec, still valid as research direction) |
-| Decision log D01–D19 | [`docs/DECISIONS.md`](DECISIONS.md) |
+| Decision log D01–D24 | [`docs/DECISIONS.md`](DECISIONS.md) |
+| Perception pipeline usage, output schema, count policy | [`docs/PIPELINE.md`](PIPELINE.md) |
+| Packages, candidate weights, licences, benchmarks | [`docs/MODELS.md`](MODELS.md) |
+| Recording protocol, consent and labelling templates | [`docs/dataset/`](dataset/README.md) |
 | Status log | [`docs/PROGRESS.md`](PROGRESS.md) |
 | Inspector usage and report schema | [`docs/VIDEO_INSPECTION.md`](VIDEO_INSPECTION.md) |
 | CG-002 verification record (historical) | [`docs/HANDOFF.md`](HANDOFF.md) |
 | How we got here; superseded proposals; Codex sessions | [`docs/history/`](history/README.md) |
 
-## 3. Verified repository and environment state (2026-11-13)
+## 3. Verified repository and environment state (2026-11-15)
 
 | Item | State |
 | --- | --- |
 | Branch | `main`, tracking `origin/main` (public: `github.com/washam1337/ContextGuard`) |
-| Commits | 2026-11-13: `f2969af` “docs: complete Claude Code project handoff” (pushed), followed by a README/status update commit (pushed with owner approval). Run `git log --oneline -3` and `git status` to confirm. |
+| Commits | Last pushed: `d2f2cfa` (D24, 2026-11-14), after `a15c850` (pipeline) and `f2969af` (handoff). Run `git log --oneline -5` and `git status` to confirm the current state. |
 | Git author | Repository-local identity set 2026-11-13 to the owner's GitHub `noreply` address (owner approved). Earlier history was not rewritten. |
 | Other refs | `local-preparation` → `e931d52`: orphan, never pushed, tree identical to `dd765fe`. Kept on purpose; **do not delete without owner approval.** |
-| CI | GitHub Actions passed on both pushes (runs 36336320051, 40039326735) |
-| Tests | `unittest`: **10/10 pass** in 1.63 s with the `fyp` interpreter. Tests must be run from the repo root (they import `scripts.inspect_video`). |
+| CI | GitHub Actions passed on every push to `main`. The last verified run is 43440801718 (`a15c850`, installs torch/ultralytics). Check `gh run list` for later pushes. |
+| Tests | `unittest`: **31 run, 31 pass, 0 skipped** (2026-11-15, `fyp` interpreter, repo root): CG-002 ×10 and pipeline ×21. The YOLO smoke test runs only when `weights/yolo26n.pt` exists, and is skipped in CI. **Run from the repo root**: tests import `contextguard` and `scripts`, which are not installed packages. |
 | `MASTER_PLAN.md` integrity | Append-only confirmed. The original 68,258 bytes have SHA-256 `9e161cd5…26af6c1`; the CG-002 version (71,248 bytes, `840f96d4…fb29a2`) is an exact prefix; current full file is `2469ce9f…6525a142` (84,037 bytes). |
 | Interpreter | `/home/w4shm1337/miniconda3/envs/fyp/bin/python`, Python 3.10.21 |
 | Declared deps | `opencv-python==5.0.0.93`; since 2026-11-13 also `torch==2.14.1+cpu`, `torchvision==0.29.2+cpu`, `ultralytics==8.4.212`, `lap==0.5.14` (D23; see [MODELS.md](MODELS.md)). Ultralytics telemetry is disabled. |
@@ -55,7 +61,7 @@ Only the CG-002 recorded-video inspector is implemented.
 | Not installed | SciPy, pandas, Pydantic, pytest |
 | Hardware | Intel i5-1135G7 (4 cores / 8 threads), 7.6 GiB RAM, 2 GiB swap, no GPU exposed to WSL2 |
 | OpenCV build | FFmpeg enabled, GStreamer disabled |
-| Real footage / dataset / weights | **None exist** in the repo or ignored folders |
+| Real footage / dataset | **None recorded yet.** `~/contextguard-data/raw/` exists, empty, outside the repository (D24); the owner records by 2026-11-17. Weights: see the row above. |
 
 ## 4. Status by deliverable and milestone
 
@@ -66,7 +72,7 @@ Only the CG-002 recorded-video inspector is implemented.
 | **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>31 tests pass. **Not yet validated on office footage**: waiting for the team's recordings (owner: by Tue 2026-11-17). Document detection is EXPERIMENTAL (not started). |
 | CG-006 integration/testing/evaluation | PLANNED |
 | Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
-| Deliverable 4: dataset and model docs | PLANNED. No dataset, model or weights. |
+| Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark; [dataset/](dataset/README.md) has the recording protocol and consent and labelling templates. No recordings, no selected model, no accuracy results yet. |
 | SYS-01–SYS-08 | Defined; all **PLANNED / NOT RUN** |
 | Audio, accessibility | DEFERRED |
 | Learned temporal modelling | Optional/proposed |
@@ -98,11 +104,11 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 
 ## 7. Known gaps and inconsistencies (fixes need owner approval)
 
-1. `README.md` was updated for FYP-1 on 2026-11-13 (status box, capabilities,
-   roadmap, docs table). Its Mermaid diagram still shows only the original
-   inspection → planned pipeline. The complete workflow diagram is FYP-1
-   deliverable 1 and remains PLANNED.
-2. `CONTRIBUTING.md` points only to the CG-002 amendment.
+1. `README.md` updated on 2026-11-15 for the built pipeline (status, capabilities,
+   run instructions, diagram, tests, licence). Its diagram is a summary; the
+   complete workflow diagram is FYP-1 deliverable 1 and remains PLANNED.
+2. *(Fixed 2026-11-15)* `CONTRIBUTING.md` now points to `CURRENT_STATE.md`, the
+   FYP-1 amendment and the AGPL licence.
 3. The original “Repository AI Operating Contract” at the top of `MASTER_PLAN.md`
    (development order, first vertical slice, accessibility first-class) is
    overridden for the current phase by amendments 1,800 lines later. `CLAUDE.md`
@@ -114,8 +120,11 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
    contain later sections.
 6. `docs/HANDOFF.md` is the historical CG-002 record. Its CG-003 proposal and
    “no commits” statements are superseded, and its “amended SHA” is the 2026-09-27 hash.
-7. Tests fail if run from outside the repo root (import path), and every run leaves a
-   `/tmp/cg002-software-fixture-*` folder by design.
+7. Tests still fail if run from outside the repo root. Re-checked 2026-11-15: from
+   `/tmp`, 8 test modules fail to import (`contextguard` ×7, `scripts` ×1), because
+   neither is an installed package. The documented command (run from the repo root)
+   works. Every run also leaves a `/tmp/cg002-software-fixture-*` folder (CG-002
+   design); the pipeline tests clean up after themselves.
 8. The inspector records file size but no checksum. The FYP-1 observation contract
    requires a source checksum, which belongs in new code, not a v1 schema change.
 9. Untested inspector paths: decoder exception, empty frame, early end of the second
@@ -129,27 +138,36 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 - Revised FYP-1 dates and the university deadline/format for FYP-1 deliverables.
 - Supervisor: identity, whether the scope refinement was communicated, and the presentation outcome.
 - Second team member and division of work (D08 says two students).
-- Repository licence. This affects which model licences are compatible; see below.
+- *Resolved:* repository licence is AGPL-3.0 (D25).
+- *Resolved:* the name and roll number in `MASTER_PLAN.md` stay as they are (D28).
 - Branch workflow: `CONTRIBUTING.md` asks for feature branches and PRs, but history shows direct commits to `main`.
 
-**Data (blocks CG-003)**
-- Consent form and process; who records; storage location (never this public repo);
-  retention and access.
-- Camera placement, resolution and FPS. Registered starting positions for laptop and backpack.
-- Ground-truth annotation method and tool for person tracks.
+**Data**
+- *Resolved:* consent is obtained (D24); footage is stored in `~/contextguard-data/raw/`;
+  the split is by session, S01 tuning and S02 evaluation (D27); SC09 is optional (D26).
+- Open:
+  - retention and deletion date (the consent template leaves it blank);
+  - camera placement, resolution and FPS (set by the recording);
+  - registered starting positions for the laptop and backpack;
+  - which corner is the `restricted` zone, if optional SC09 is recorded (D26);
+  - whether session S02 can be recorded before 2026-11-17, or the fallback split
+    by take is used (D27).
 
-**CG-003 technical** (to be proposed with evidence, not assumed)
-- Detector and tracker. Criteria: CPU throughput on the i5-1135G7, person-class
-  quality at office distances, licence compatibility with a public repo, and
-  dependency weight. As generally understood, Ultralytics YOLO is AGPL-3.0 and
-  ByteTrack's reference implementation is MIT. Re-verify every licence from the
-  source at selection time.
-- Runtime: PyTorch (not installed) or ONNX Runtime (already installed).
-- Input size, confidence thresholds, frame stride.
-- Observation schema v1 (`contextguard.observation.v1`, JSONL suggested) and its validation.
-- Timing basis: frame index ÷ FPS, or decoder timestamps (`CAP_PROP_POS_MSEC`) with verification.
-- Annotated-video codec/container that actually plays (OpenCV writer availability).
-- Code layout: keep `scripts/` or introduce a package (e.g. `contextguard/`) so tests do not depend on the working directory.
+**Perception pipeline: settled on 2026-11-13** (D21–D23, see [PIPELINE.md](PIPELINE.md))
+- Ultralytics YOLO with PyTorch CPU and class-wise ByteTrack (ONNX route not taken).
+- Observation schema `contextguard.observation.v1` (JSONL) with a validator.
+- Timing: `source_frame_index / reported_fps`, with the decoder's `pos_msec` recorded but unvalidated.
+- Annotated video: `mp4v` MP4 (no H.264 without FFmpeg).
+- Code layout: `contextguard/` package plus `scripts/` command-line tools.
+
+**Perception pipeline: still open**
+- Which of the four weights; input size; detector and count thresholds; stride.
+  These are chosen on tuning takes only.
+- Ground-truth labelling for person tracks (per-second count sheet drafted; ID-switch
+  labelling not yet defined).
+- Evaluation plan (matching rules, metrics, targets), written before scoring the
+  evaluation takes.
+- Whether to make `contextguard` installable so tests run from any directory (low priority).
 
 **CG-004/CG-005/later**
 - Zone purposes in FYP-1 (doorway/entry, desk/asset, restricted); membership anchor;
@@ -168,16 +186,20 @@ Nov 14–15 test clip + pipeline code; Nov 16–17 main recording session; Nov 1
 zones/counting and tuning (tuning takes only); Nov 19–20 owner labels evaluation
 takes; Nov 21–22 evaluation report, workflow diagram, docs, SYS status table;
 Nov 23 rehearsal and buffer.
+Licence: AGPL-3.0 (D25).
 
 2. **Owner (critical path, human-only):** consent is obtained (D24). Record the clips
    following [the recording protocol](dataset/RECORDING_PROTOCOL.md) by Tue 2026-11-17
-   into `~/contextguard-data/raw/` (created, outside the repository) and tell Claude.
+   into `~/contextguard-data/raw/` (created, outside the repository) and tell Claude:
+   - session **S01** (tuning): every scenario once;
+   - session **S02** (evaluation, at a different time): every scenario twice;
+   - SC09 is optional.
 3. *(Done 2026-11-13: combined pipeline built and verified on synthetic fixtures;
    see [PIPELINE.md](PIPELINE.md).)*
 4. **Claude, when footage arrives (owner: by Tue 2026-11-17):**
    - run the inspector placement check on each clip;
    - draw a real zone config for the camera set-up;
-   - benchmark the four candidate weights on **tuning takes only**;
+   - benchmark the four candidate weights on **session S01 (tuning) only**;
    - propose the model and thresholds;
    - run the pipeline on the tuning takes and review the failures;
    - write the evaluation plan (matching rules, metrics) **before** scoring the

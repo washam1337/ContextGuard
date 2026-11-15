@@ -133,3 +133,58 @@ Built the observation-only pipeline for D21, documented in [PIPELINE.md](PIPELIN
   [MODELS.md](MODELS.md).
 - Status: PARTIAL. No office footage, laptop or backpack validation yet; the owner
   records footage by 2026-11-17.
+
+## Documentation accuracy review — 2026-11-15
+
+An owner-requested review of the docs at `d2f2cfa`, each point verified against the
+files and test output:
+
+- `CURRENT_STATE.md` corrected:
+  - implementation status;
+  - D-number range (D01–D24);
+  - test result (31 run, 31 pass, 0 skipped with weights present);
+  - footage/weights rows;
+  - Deliverable 4 → PARTIAL;
+  - commits and CI rows;
+  - consent marked resolved (D24);
+  - perception-pipeline decisions settled on 2026-11-13 moved out of "open".
+- Re-checked known gap 7: tests still need the repo root. From `/tmp`, 8 test modules
+  fail to import `contextguard`/`scripts`, which are not installed packages.
+- `docs/dataset/ground_truth_template.csv`: added a `backpack_occluded` column (for
+  SC07), with matching labelling instructions. The CSV is a **draft working
+  template, not a versioned schema**, so no version bump. No labels have been
+  recorded with the old layout.
+- Proposed, not applied (awaiting owner approval):
+  - README update;
+  - AGPL-3.0 LICENSE;
+  - CONTRIBUTING fix;
+  - optional SC09 restricted-zone scenario;
+  - session-based evaluation split;
+  - options for the personal details in `MASTER_PLAN.md`.
+
+## Review follow-up applied — 2026-11-15
+
+The review that triggered the entry above came from a **Claude cloud session**
+reading the GitHub repository, relayed by the owner. The owner delegated the fixes:
+
+- Added `LICENSE`: GNU AGPL-3.0, an exact copy of the text shipped with Ultralytics
+  8.4.212 (SHA-256 `0d96a4ff…abcb0`) (D25).
+- `README.md` updated:
+  - pipeline status as partial, synthetic tests only;
+  - capabilities table;
+  - run instructions with a one-time weights download and checksum check;
+  - diagram with implemented/partial/planned nodes;
+  - roadmap, 31-test breakdown and file tree;
+  - licence section and badges.
+- `CONTRIBUTING.md`: points to `CURRENT_STATE.md`, the FYP-1 amendment and
+  `CLAUDE.md`; says to run tests from the repo root; notes the AGPL licence; adds
+  "no frames or videos of people" to the commit rules.
+- Recording protocol:
+  - optional scenario **SC09** (restricted-area visit, observation only) (D26);
+  - tuning/evaluation split changed to **by session**, S01 tuning and S02 evaluation,
+    with the by-take fallback (D27).
+- Status lines updated to match: `CLAUDE.md`, `CURRENT_STATE.md`, `MODELS.md` and
+  `dataset/README.md`.
+- Still waiting for the owner: what to do about the personal details in
+  `MASTER_PLAN.md` lines 84–85.
+- Owner decision on the personal details in `MASTER_PLAN.md`: leave them as they are (D28).

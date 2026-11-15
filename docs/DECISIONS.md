@@ -79,3 +79,15 @@ Open decisions are listed in [CURRENT_STATE.md § 8](CURRENT_STATE.md#8-open-dec
 | D22 | Model route for the combined pipeline: **Ultralytics YOLO** (pretrained COCO detector with its built-in tracker), wrapped behind a project-owned detector/tracker interface so it can be replaced. Ultralytics is AGPL-3.0; the owner accepts this, and a matching AGPL-3.0 licence for the repository will be proposed with the README change. The exact model size and version are chosen by a measured CPU benchmark on the team's footage. |
 | D23 | Approved: install CPU-only PyTorch, Ultralytics and the tracker's dependency into the `fyp` environment, pinned in `requirements.txt`, and download pretrained weights outside Git with provenance and SHA-256 recorded. Ultralytics telemetry is to be disabled. |
 | D24 | Participant consent for the staged recordings has been obtained by the owner (stated 2026-11-13). Signed forms are held by the team outside the repository. Footage is recorded following `docs/dataset/RECORDING_PROTOCOL.md` and stored in `~/contextguard-data/raw/` (outside Git, owner-only permissions). |
+
+## Documentation review follow-up — 2026-11-15
+
+A review of the repository by a Claude cloud session found these issues; the owner
+relayed them and delegated the fixes to Claude Code.
+
+| ID | Accepted working decision |
+| --- | --- |
+| D25 | The repository is licensed under **GNU AGPL-3.0** (`LICENSE`, official text copied from the Ultralytics 8.4.212 distribution, SHA-256 `0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0`), matching the Ultralytics dependency (D22). It covers the code and docs in this repository, not recordings, which are never published here. Pretrained weights keep their own terms. |
+| D26 | Recording scenario **SC09 (restricted-area visit)** is added as **optional**. It shows membership in a `restricted`-kind zone on real footage, recorded as an observation only, never a violation. FYP-1 acceptance does not depend on it, because zone membership logic is the same for all zone kinds and is exercised by the doorway and desk zones. |
+| D27 | The tuning/evaluation split is **by session**: S01 (tuning, one take per scenario) and S02 (evaluation, two takes per scenario). S02 is recorded at a different time, with different volunteer pairings where possible, and the camera in the same position. With only 2–3 volunteers, people overlap across sessions; this is stated as a limitation. Fallback if S02 is impossible before 2026-11-17: split by take within one session, reported as the weaker design. Replaces the by-take split drafted on 2026-11-13. |
+| D28 | The owner's name and roll number in `MASTER_PLAN.md` (original specification, lines 84–85) **stay as they are**, by owner decision on 2026-11-15. The options considered were: leave; remove from the current file; rewrite history; make the repository private. `MASTER_PLAN.md` remains append-only. Do not raise this again unless the owner asks. |

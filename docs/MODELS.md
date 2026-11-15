@@ -2,7 +2,7 @@
 
 Status: **candidates downloaded; no model selected yet** (D22). Selection is made by
 a measured benchmark on the team's own consented footage, using the tuning takes
-only (see [dataset/RECORDING_PROTOCOL.md](dataset/RECORDING_PROTOCOL.md) § 6).
+only, i.e. session S01 (see [dataset/RECORDING_PROTOCOL.md](dataset/RECORDING_PROTOCOL.md) § 6).
 No accuracy on office footage has been measured yet.
 
 ## Software installed for the perception pipeline (2026-11-13, D23)
@@ -23,9 +23,9 @@ new packages would be added, and `pip check` was clean afterwards. Pinned in
 Ultralytics telemetry is disabled (`sync: false` in `~/.config/Ultralytics/settings.json`).
 GPU: none. All inference runs on the CPU.
 
-**Licence note.** Ultralytics is AGPL-3.0. The owner accepts this (D22). A matching
-AGPL-3.0 licence for the repository is to be proposed together with the next README
-change. Until it is added, the repository has no licence.
+**Licence note.** Ultralytics is AGPL-3.0, and the owner accepts this (D22). The
+repository is licensed under AGPL-3.0 (D25, [LICENSE](../LICENSE)). The licence
+text was copied from the Ultralytics 8.4.212 distribution (SHA-256 `0d96a4ff…abcb0`).
 
 ## Candidate weights
 

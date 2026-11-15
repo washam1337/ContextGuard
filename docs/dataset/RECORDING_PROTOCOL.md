@@ -37,7 +37,8 @@ Before the main session, record one 30–60 s **test clip** and run the inspecto
 ## 3. Shot list
 
 Each clip is 30–90 s. Start and end each clip with **3 s of the room as it is**.
-Record **2–3 takes** of each scenario with different volunteers.
+Record each scenario **once in session S01 and twice in session S02** (section 6),
+with volunteers paired differently where possible.
 
 | Code | Scenario | Script | What it tests |
 | --- | --- | --- | --- |
@@ -49,6 +50,10 @@ Record **2–3 takes** of each scenario with different volunteers.
 | SC06 | Laptop occluded | V stands between camera and laptop ~5 s, moves away | Occlusion is not departure (relates to SYS-05) |
 | SC07 | Backpack carried out | V picks up backpack, leaves with it | Second asset |
 | SC08 | Laptop moved and returned | V moves laptop across desk, puts it back | Moved, not removed |
+| SC09 *(optional)* | Restricted-area visit | V walks into the corner configured as the `restricted` zone (e.g. beside a cabinet), stays ~5 s, returns, leaves | Membership in a `restricted`-kind zone on real footage. Recorded as an observation only, **never a violation**. |
+
+SC09 is optional (D26). Record it only if time allows, and decide which corner is
+the restricted zone **before** recording.
 
 The relations to SYS cases are for planning only. SYS-01–08 stay PLANNED / NOT RUN
 until the later reasoning stage exists.
@@ -76,10 +81,28 @@ large enough? Also watch the clip, because three frames cannot show everything.
 
 ## 6. Tuning versus evaluation split
 
-Decide the split **before** looking at model results:
+The split is **by session** (D27), fixed **before** looking at any model results:
 
-- **Tuning set:** take 1 of every scenario. Used to choose the model size, thresholds and zones.
-- **Evaluation set:** takes 2–3. Used once for the reported results, and never for tuning.
+| Session | Purpose | What to record |
+| --- | --- | --- |
+| **S01: tuning** | Choose the model size, thresholds and zones; review failures | Every scenario, take 1 |
+| **S02: evaluation** | Reported results only; never used for tuning | Every scenario, takes 1–2 |
+
+How to make S02 a genuinely separate session:
+
+- Record it at a **different time**: a few hours later or another day, so the
+  lighting differs.
+- Use **different volunteer pairings** or clothing from S01 wherever possible.
+- **Keep the camera in exactly the same place**, so one zone configuration fits both
+  sessions. If the camera moves, note it and a new zone configuration is drawn.
+- Fill in a separate session log for S02.
+
+**Known limitation:** with only 2–3 volunteers, the same people appear in both
+sessions. This must be stated in the evaluation report.
+
+**Fallback:** if S02 cannot be recorded before 2026-11-17, record three takes in one
+session and split by take (take 1 for tuning, takes 2–3 for evaluation). Report this
+as the weaker split.
 
 Report the split, and every evaluation clip, including the failures.
 

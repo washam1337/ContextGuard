@@ -30,7 +30,6 @@ The student is the project owner and final decision-maker.
    **not** govern the current build.
 
 Code and test output beat documentation claims; verify, then fix the docs.
-`CONTRIBUTING.md` is currently stale (it still points only to the CG-002 amendment).
 `docs/history/` and `docs/HANDOFF.md` are records, never sources of active
 requirements. Never claim supervisor approval: none is recorded, and
 “user/coordinator approval” means the owner's approval only.
@@ -67,9 +66,11 @@ requirements. Never claim supervisor approval: none is recorded, and
 - Demo: `recorded video → detection → tracking → zones/counting → annotated video + structured output`.
 - CG-002 inspection is **IMPLEMENTED**: preserve `scripts/inspect_video.py` and schema
   `contextguard.video_inspection.v1`.
-- Milestones, all PLANNED: CG-003 people (includes the consented pilot and placement
-  review) → CG-004 zones/counting → CG-005 laptop/backpack → CG-006 integration/evaluation.
-  Exit criteria are in the FYP-1 amendment.
+- Milestones: CG-003 people (includes the consented pilot and placement review),
+  CG-004 zones/counting and CG-005 laptop/backpack are built as **one combined pipeline**
+  (D21). It is PARTIAL: synthetic tests only, real-footage validation pending. Then
+  CG-006 integration/evaluation (PLANNED). Exit criteria are in the FYP-1 amendment;
+  check `docs/CURRENT_STATE.md` for live status.
 - Do not build interaction inference, asset state, events, permission/context
   reasoning, anomaly rules, incidents, evidence clips, dashboard/API or feedback unless
   an approved milestone includes them. They belong in the workflow *diagram*, labelled planned.

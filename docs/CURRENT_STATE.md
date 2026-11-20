@@ -147,9 +147,9 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
     desk are cut off at the legs and their box bottom is the frame bottom. A
     `bottom_center` (feet) anchor works at the doorway but not for a desk zone. To be
     handled when the S01 zones are drawn (no schema change: anchors are per-config).
-14. **Originals not yet read-only.** On 2026-11-21 the owner approved `chmod a-w` on the
-    S01 originals and deleting the Windows `session_log_S01.txt:Zone.Identifier` file,
-    but Claude Code's permission system blocked both. The owner runs them (§9).
+14. *(Fixed 2026-11-21.)* The S01 originals are read-only (`chmod a-w`, run by the
+    owner because Claude Code's permission system blocked it) and the Windows
+    `Zone.Identifier` file is deleted. Checksums re-verified unchanged afterwards.
 15. **Protocol deviations in S01** (listed in `PROGRESS.md` 2026-11-21 and the protocol's
     "S01 as recorded" section): SC04 shows no brief exceedance (~14 s); SC08's laptop is
     put on the PC tower and not returned within the clip; SC02–SC04 do not end empty;
@@ -209,9 +209,7 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
 
 1. *(Done: handoff, pipeline on synthetic fixtures, S01 recorded 2026-11-20 and
    checked 2026-11-21.)*
-2. **Owner:** make the originals read-only and delete the Windows leftover file
-   (approved, but blocked for Claude; gap 14):
-   `chmod a-w ~/contextguard-data/raw/S01/*.MOV && rm ~/contextguard-data/logs/'session_log_S01.txt:Zone.Identifier'`
+2. *(Done 2026-11-21: originals read-only, leftover file deleted; gap 14.)*
 3. **Claude:** draw the S01 zone configuration on an SC01 frame (doorway zone with
    the feet anchor; desk/asset area for objects; see gap 13). **Owner confirms.**
    DOC01/DOC02 need their own configuration (camera moved) or none.
@@ -229,8 +227,7 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
    the FYP about **30–40% working**, i.e. the perception demo on S01 (D20). Remaining
    owner input: the slide/report format, if the university prescribes one.
 
-**Resume point (2026-11-21):** the owner runs step 2's command, then continues with
-step 3 (zones) in the next session.
+**Resume point (2026-11-21):** continue with step 3 (zones) in the next session.
 
 ## 10. How to resume in a fresh Claude Code session
 

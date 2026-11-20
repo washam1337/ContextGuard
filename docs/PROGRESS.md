@@ -258,3 +258,5 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
   - no pipeline run, model choice or result on footage yet.
 - Owner (2026-11-21): due on Nov 24 is a presentation plus code preparation showing the
   FYP about 30–40% working. Next session starts with the S01 zone configuration.
+- The owner ran the blocked step: S01 originals are now read-only and the
+  `Zone.Identifier` file is deleted; all 10 checksums re-verified unchanged.

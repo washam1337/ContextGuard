@@ -225,8 +225,12 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
    compute the development results; report every scenario, including failures.
 8. **Nov 23:** workflow diagram (deliverable 1), SYS-01–08 status table (all PLANNED /
    NOT RUN), doc and README updates (README shown first), demo clips, rehearsal.
-9. **Owner:** confirm what else is due on Nov 24 (slides, report, format), and when to
-   commit and push.
+9. **Due on Nov 24 (owner, 2026-11-21):** a presentation plus code preparation showing
+   the FYP about **30–40% working**, i.e. the perception demo on S01 (D20). Remaining
+   owner input: the slide/report format, if the university prescribes one.
+
+**Resume point (2026-11-21):** the owner runs step 2's command, then continues with
+step 3 (zones) in the next session.
 
 ## 10. How to resume in a fresh Claude Code session
 

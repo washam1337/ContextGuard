@@ -256,3 +256,5 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
   - `chmod a-w` on the originals and deleting the `Zone.Identifier` file were approved
     by the owner but blocked by Claude Code's permission system; the owner runs them;
   - no pipeline run, model choice or result on footage yet.
+- Owner (2026-11-21): due on Nov 24 is a presentation plus code preparation showing the
+  FYP about 30–40% working. Next session starts with the S01 zone configuration.

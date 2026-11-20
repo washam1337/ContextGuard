@@ -218,3 +218,41 @@ reading the GitHub repository, relayed by the owner. The owner delegated the fix
 - Tests: 32 run, 32 pass, 0 skipped.
 - `CURRENT_STATE.md` gap 11 marked fixed; `PIPELINE.md` scaling note and test count updated; `README.md` test count 31→32 (owner approved).
 
+
+### 2026-11-21: session S01 received and checked (no model results)
+
+Footage: 10 clips recorded 2026-11-20 in `~/contextguard-data/raw/S01/` (outside Git).
+All checks were read-only; SHA-256 of every original was verified unchanged afterwards.
+
+- **Files vs log:** SC01–SC08, DOC01, DOC02 present. No separate S00 test clip (SC01
+  served as the placement check). SC09 not recorded.
+- **Technical (CG-002 inspector, a container parser and an OpenCV frame pass):**
+  - all 10 decode fully;
+  - H.264 1920×1080, no rotation, plus an AAC audio track;
+  - effectively constant 30.0 fps (2–7 frames per clip last 35 ms instead of 33.3 ms);
+  - 15.1–33.1 s per clip (452–994 frames);
+  - decoded size equals reported size;
+  - `estimated_seconds` vs decoder timestamps differ by ≤ 10 ms;
+  - SC02 has an edit list (631 stored, 611 decoded frames), which OpenCV honours.
+- **Camera:** SC01–SC08 within ~3 px of each other (one zone configuration fits);
+  DOC01/DOC02 shifted ~220 px (camera moved slightly).
+- **Content:** scenario-by-scenario observations and deviations are recorded in
+  `dataset/RECORDING_PROTOCOL.md` § 8 and the private session log. Notably, SC04 shows
+  no brief exceedance, and in SC08 the laptop is placed on the PC tower out of view and
+  not returned within the clip.
+- **Correction:** in the first footage report Claude said SC06–SC08 showed a different
+  laptop. A full-resolution crop showed the same laptop and sticker, moved slightly and
+  angled differently; the owner confirmed one laptop.
+- **Documents (exploratory, D32):** results recorded in `MODELS.md`. The desk stack is a
+  weak `book` detection; the document on the PC tower is not detected.
+- **Owner decisions:** D29 (S01 only), D30 (development results only), D31 (audio never
+  used), D32 (documents EXPERIMENTAL).
+- **Session log:** completed by Claude Code from the owner's answers; the owner's draft
+  is kept as `session_log_S01.owner_draft.txt`.
+- **Docs updated:** `CURRENT_STATE.md`, `DECISIONS.md`, `PIPELINE.md`, `MODELS.md`,
+  `dataset/RECORDING_PROTOCOL.md` (status line, § 6 note, new § 8),
+  `dataset/README.md` and `ground_truth_template.csv` (now label S01 SC01–SC08).
+- **Not done:**
+  - `chmod a-w` on the originals and deleting the `Zone.Identifier` file were approved
+    by the owner but blocked by Claude Code's permission system; the owner runs them;
+  - no pipeline run, model choice or result on footage yet.

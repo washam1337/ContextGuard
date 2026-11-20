@@ -1,8 +1,10 @@
 # Staged office recording protocol (FYP-1)
 
-Status: **DRAFT, PLANNED**. No recordings exist yet. This protocol governs the
+Status: **Session S01 recorded on 2026-11-20** (see [section 8](#8-s01-as-recorded-2026-11-20)
+for what was actually recorded and how it deviates). This protocol governs the
 team-recorded, consented, staged footage used for the 2026-11-24 FYP-1
-presentation (D20, D21). Synthetic test fixtures are not part of this dataset.
+presentation (D20, D21) and remains the reference for any later session.
+Synthetic test fixtures are not part of this dataset.
 
 ## 1. Before recording
 
@@ -86,6 +88,10 @@ large enough? Also watch the clip, because three frames cannot show everything.
 
 ## 6. Tuning versus evaluation split
 
+> **For FYP-1 this section is superseded.** S01 is the only dataset (D29) and
+> results on it are reported as development results only (D30). The plan below
+> (D27) is kept for a possible later session.
+
 The split is **by session** (D27), fixed **before** looking at any model results:
 
 | Session | Purpose | What to record |
@@ -127,3 +133,36 @@ Volunteers present:    V1, V2, …   (consent forms signed: yes/no)
 Clips recorded:        file name | scenario | take | notes
 Problems:
 ```
+
+## 8. S01 as recorded (2026-11-20)
+
+Checked read-only by Claude Code on 2026-11-21; full details in `PROGRESS.md`
+(2026-11-21). The private session log is
+`~/contextguard-data/logs/session_log_S01.txt`.
+
+- **Clips:** 10 files in `~/contextguard-data/raw/S01/`: SC01–SC08 (one take each) and
+  the exploratory DOC01 (document moved onto the PC tower) and DOC02 (document carried
+  out); SC09 not recorded (no restricted zone in this office). No separate S00 test
+  clip: SC01 served as the placement check. Volunteers V1–V3, all consented.
+- **Format:** iPhone 13 Pro, `.MOV` (H.264 video + AAC audio), 1920×1080, constant
+  30.0 fps, 15–33 s per clip. Files are named `cg_20261120_S01_<scenario>_t1.MOV`.
+  All decode fully; timestamp drift ≤ 10 ms.
+
+Deviations from this protocol:
+
+1. `.MOV` with an audio track instead of MP4; audio is never used or played (D31).
+2. Camera at chest height, not high in a corner; the floor in front of the desk is
+   out of frame, so visitors near the desk are cut off at the legs.
+3. One session only (D29); recorded 2026-11-20, after the planned 2026-11-17.
+4. SC09 not recorded; DOC01/DOC02 added (EXPERIMENTAL, D32).
+5. The camera moved slightly (~220 px horizontally) before DOC01/DOC02; SC01–SC08
+   share one position.
+6. Clips are 15–33 s, not 30–90 s; SC02, SC03 and SC04 do not end with an empty room.
+7. Scripts not followed exactly: in SC02 the visitor stands and does not leave; in
+   SC03 both visitors are inside together for ~12 s (not ≥ 20 s) and nobody leaves;
+   in SC04 the second visitor stays ~14 s (**not a brief visit**); in SC08 the laptop
+   is placed on the PC tower, out of the camera's view, and **not returned** within
+   the clip.
+8. One laptop throughout, but after SC05 it was put back slightly to the right and at
+   a different angle, so it looks greyer in SC06–SC08; a paper stack is on the desk
+   from SC06; in SC08 the backpack is on the chair behind the desk.

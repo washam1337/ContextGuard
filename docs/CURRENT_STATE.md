@@ -1,8 +1,9 @@
 # Current state and resume guide
 
-**Last updated:** 2026-11-15 by Claude Code (doc-accuracy review after D24).
+**Last updated:** 2026-11-21 by Claude Code (S01 footage received and checked; D29–D32).
 This is a living document. Update it at the end of every milestone or significant
-session. The state in §3 was re-checked by running commands on 2026-11-15.
+session. The state in §3 was re-checked by running commands on 2026-11-15; the
+footage row on 2026-11-21.
 Nothing here is a research result.
 
 ## 1. One-paragraph orientation
@@ -24,7 +25,8 @@ The FYP-1 executable demo is
 Implemented so far:
 - the CG-002 recorded-video inspector (IMPLEMENTED);
 - the combined CG-003/004/005 perception pipeline (PARTIAL: tested on synthetic
-  fixtures only; no office footage yet).
+  fixtures only; the team's office footage, session S01, was recorded on 2026-11-20
+  and has passed the technical checks, but the pipeline has not yet been run on it).
 
 ## 2. Where knowledge lives
 
@@ -61,7 +63,7 @@ Implemented so far:
 | Not installed | SciPy, pandas, Pydantic, pytest |
 | Hardware | Intel i5-1135G7 (4 cores / 8 threads), 7.6 GiB RAM, 2 GiB swap, no GPU exposed to WSL2 |
 | OpenCV build | FFmpeg enabled, GStreamer disabled |
-| Real footage / dataset | **None recorded yet.** `~/contextguard-data/raw/` exists, empty, outside the repository (D24); the owner records by 2026-11-17. Weights: see the row above. |
+| Real footage / dataset | **Session S01, recorded 2026-11-20: 10 clips** in `~/contextguard-data/raw/S01/` (outside the repository; never committed): SC01–SC08 plus exploratory DOC01/DOC02; SC09 not recorded. iPhone 13 Pro, `.MOV` H.264 + AAC audio (unused, D31), 1920×1080, constant 30.0 fps, 15–33 s each. All decode fully; decoded size equals reported size; timestamp drift ≤ 10 ms. Camera steady across SC01–SC08 (≤ 3 px); moved ~220 px before DOC01/DOC02. S01 is the only FYP-1 dataset (D29). Session log: `~/contextguard-data/logs/session_log_S01.txt`; checksums: `~/contextguard-data/review/S01_footage_check/S01_originals.sha256`. Details: `PROGRESS.md` 2026-11-21. |
 
 ## 4. Status by deliverable and milestone
 
@@ -69,10 +71,10 @@ Implemented so far:
 | --- | --- |
 | CG-001/CG-001A audits | Complete (history only) |
 | **CG-002** recorded-video inspection | **IMPLEMENTED**. Synthetic software validation only. Preserve it and schema `contextguard.video_inspection.v1`. |
-| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>32 tests pass. **Not yet validated on office footage**: waiting for the team's recordings (owner: by Tue 2026-11-17). Document detection is EXPERIMENTAL (not started). |
+| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>32 tests pass. **Not yet validated on office footage**: S01 is recorded and checked (2026-11-21); pipeline runs on it are next. Document detection is EXPERIMENTAL: a read-only check found COCO models cannot reliably detect the document (D32). |
 | CG-006 integration/testing/evaluation | PLANNED |
 | Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
-| Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark; [dataset/](dataset/README.md) has the recording protocol and consent and labelling templates. No recordings, no selected model, no accuracy results yet. |
+| Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark and the S01 document check; [dataset/](dataset/README.md) has the recording protocol (with an "S01 as recorded" section) and consent and labelling templates. S01 recorded and documented; no selected model and no results on footage yet. |
 | SYS-01–SYS-08 | Defined; all **PLANNED / NOT RUN** |
 | Audio, accessibility | DEFERRED |
 | Learned temporal modelling | Optional/proposed |
@@ -128,7 +130,8 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 8. The inspector records file size but no checksum. The FYP-1 observation contract
    requires a source checksum, which belongs in new code, not a v1 schema change.
 9. Untested inspector paths: decoder exception, empty frame, early end of the second
-   pass, JPEG encode failure, permission-denied input. Never run on real footage.
+   pass, JPEG encode failure, permission-denied input. First run on real footage
+   2026-11-21: all 10 S01 clips inspected without errors.
 10. The `fyp` environment contains large undeclared packages, which could mask
     missing declarations once new dependencies are added.
 11. *(Fixed 2026-11-15, owner approved; regression test added.)* Zone scaling bug (found by review, confirmed by code reading):
@@ -137,6 +140,20 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
     differs from the zone reference size, zones are never re-scaled to the real
     frames. Now zones are scaled from the reference size to the decoded frame size,
     with warnings on a reported/decoded mismatch or a mid-video size change.
+12. **Audio in the originals.** Every S01 `.MOV` has an AAC audio track, although the
+    consent form says no audio is used. Handling: never used or played; outputs are
+    silent; originals unmodified (D31).
+13. **Membership anchor vs framing.** The camera is at chest height, so people near the
+    desk are cut off at the legs and their box bottom is the frame bottom. A
+    `bottom_center` (feet) anchor works at the doorway but not for a desk zone. To be
+    handled when the S01 zones are drawn (no schema change: anchors are per-config).
+14. **Originals not yet read-only.** On 2026-11-21 the owner approved `chmod a-w` on the
+    S01 originals and deleting the Windows `session_log_S01.txt:Zone.Identifier` file,
+    but Claude Code's permission system blocked both. The owner runs them (§9).
+15. **Protocol deviations in S01** (listed in `PROGRESS.md` 2026-11-21 and the protocol's
+    "S01 as recorded" section): SC04 shows no brief exceedance (~14 s); SC08's laptop is
+    put on the PC tower and not returned within the clip; SC02–SC04 do not end empty;
+    clips are shorter than the protocol's 30–90 s.
 
 ## 8. Open decisions
 
@@ -149,30 +166,31 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 - Branch workflow: `CONTRIBUTING.md` asks for feature branches and PRs, but history shows direct commits to `main`.
 
 **Data**
-- *Resolved:* consent is obtained (D24); footage is stored in `~/contextguard-data/raw/`;
-  the split is by session, S01 tuning and S02 evaluation (D27); SC09 is optional (D26).
+- *Resolved:* consent is obtained from all volunteers V1–V3 (D24); footage is in
+  `~/contextguard-data/raw/S01/`; SC09 not recorded (no restricted zone in this office).
+- *Resolved 2026-11-21:* S01 is the only FYP-1 dataset, no S02 before 2026-11-24 (D29,
+  supersedes D27 for FYP-1); development results only (D30); audio never used (D31);
+  documents stay EXPERIMENTAL (D32). Camera placement, resolution and FPS are fixed
+  by the recording (§3); laptop and backpack starting positions are in the session log.
 - Open:
   - retention and deletion date (the consent template leaves it blank);
-  - camera placement, resolution and FPS (set by the recording);
-  - registered starting positions for the laptop and backpack;
-  - which corner is the `restricted` zone, if optional SC09 is recorded (D26);
-  - whether session S02 can be recorded before 2026-11-17, or the fallback split
-    by take is used (D27).
+  - whether a later session (S02) is recorded for FYP-2 (D29 lists the reasons).
 
 **Perception pipeline: settled on 2026-11-13** (D21–D23, see [PIPELINE.md](PIPELINE.md))
 - Ultralytics YOLO with PyTorch CPU and class-wise ByteTrack (ONNX route not taken).
 - Observation schema `contextguard.observation.v1` (JSONL) with a validator.
 - Timing: `source_frame_index / reported_fps`, with the decoder's `pos_msec` recorded but unvalidated.
+  On the S01 clips the two differ by at most 10 ms (2026-11-21).
 - Annotated video: `mp4v` MP4 (no H.264 without FFmpeg).
 - Code layout: `contextguard/` package plus `scripts/` command-line tools.
 
 **Perception pipeline: still open**
 - Which of the four weights; input size; detector and count thresholds; stride.
-  These are chosen on tuning takes only.
+  Chosen on S01 (D30).
 - Ground-truth labelling for person tracks (per-second count sheet drafted; ID-switch
   labelling not yet defined).
-- Evaluation plan (matching rules, metrics, targets), written before scoring the
-  evaluation takes.
+- Development-results plan (labels, matching rules, metrics), written before any
+  results are computed (D30).
 - Whether to make `contextguard` installable so tests run from any directory (low priority).
 
 **CG-004/CG-005/later**
@@ -186,35 +204,29 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 
 ## 9. Exact next recommended action
 
-1. *(Done 2026-11-13: handoff committed and pushed; README updated.)*
-Deadline: **2026-11-24** presentation (D20). Working schedule (2026-11-13 plan):
-Nov 14–15 test clip + pipeline code; Nov 16–17 main recording session; Nov 17–19
-zones/counting and tuning (tuning takes only); Nov 19–20 owner labels evaluation
-takes; Nov 21–22 evaluation report, workflow diagram, docs, SYS status table;
-Nov 23 rehearsal and buffer.
-Licence: AGPL-3.0 (D25).
+Deadline: **2026-11-24** presentation (D20). Licence: AGPL-3.0 (D25). The 2026-11-13
+schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
 
-2. **Owner (critical path, human-only):** consent is obtained (D24). Record the clips
-   following [the recording protocol](dataset/RECORDING_PROTOCOL.md) by Tue 2026-11-17
-   into `~/contextguard-data/raw/` (created, outside the repository) and tell Claude:
-   - session **S01** (tuning): every scenario once;
-   - session **S02** (evaluation, at a different time): every scenario twice;
-   - SC09 is optional.
-3. *(Done 2026-11-13: combined pipeline built and verified on synthetic fixtures;
-   see [PIPELINE.md](PIPELINE.md).)*
-4. **Claude, when footage arrives (owner: by Tue 2026-11-17):**
-   - on the S00 test clip (`cg_<date>_S00_TEST_t1.mp4`): decoded vs reported frame
-     size (gap 11 check) and timing drift (`estimated_seconds` vs `decoder_pos_msec`);
-   - run the inspector placement check on each clip;
-   - check where seated people's `bottom_center` anchor lands (desk may hide feet),
-     then draw a real zone config for the camera set-up;
-   - benchmark the four candidate weights on **session S01 (tuning) only**;
-   - propose the model and thresholds;
-   - run the pipeline on the tuning takes and review the failures;
-   - write the evaluation plan (matching rules, metrics) **before** scoring the
-     evaluation takes.
-5. **Owner:** confirm which other FYP-1 deliverables are due on Nov 24, and the
-   camera, volunteers and recording date.
+1. *(Done: handoff, pipeline on synthetic fixtures, S01 recorded 2026-11-20 and
+   checked 2026-11-21.)*
+2. **Owner:** make the originals read-only and delete the Windows leftover file
+   (approved, but blocked for Claude; gap 14):
+   `chmod a-w ~/contextguard-data/raw/S01/*.MOV && rm ~/contextguard-data/logs/'session_log_S01.txt:Zone.Identifier'`
+3. **Claude:** draw the S01 zone configuration on an SC01 frame (doorway zone with
+   the feet anchor; desk/asset area for objects; see gap 13). **Owner confirms.**
+   DOC01/DOC02 need their own configuration (camera moved) or none.
+4. **Claude:** write the development-results plan (labels, matching rules, metrics;
+   D30). **Owner approves.**
+5. **Owner:** label SC01–SC08 with `dataset/ground_truth_template.csv`, one row per
+   second (~220 rows), **before watching any annotated output**.
+6. **Claude:** benchmark the four weights on SC01–SC08 (speed and per-class detection
+   counts); propose model and settings. **Owner approves.**
+7. **Claude:** run the pipeline on SC01–SC08 (and DOC01/DOC02 as exploration);
+   compute the development results; report every scenario, including failures.
+8. **Nov 23:** workflow diagram (deliverable 1), SYS-01–08 status table (all PLANNED /
+   NOT RUN), doc and README updates (README shown first), demo clips, rehearsal.
+9. **Owner:** confirm what else is due on Nov 24 (slides, report, format), and when to
+   commit and push.
 
 ## 10. How to resume in a fresh Claude Code session
 

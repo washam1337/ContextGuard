@@ -1,8 +1,9 @@
 # Pretrained models and dependencies
 
 Status: **candidates downloaded; no model selected yet** (D22). Selection is made by
-a measured benchmark on the team's own consented footage, using the tuning takes
-only, i.e. session S01 (see [dataset/RECORDING_PROTOCOL.md](dataset/RECORDING_PROTOCOL.md) § 6).
+a measured benchmark on the team's own consented footage, session S01, which is the
+only FYP-1 dataset (D29); results on it are development results only (D30). See
+[dataset/RECORDING_PROTOCOL.md](dataset/RECORDING_PROTOCOL.md) § 8.
 No accuracy on office footage has been measured yet.
 
 ## Software installed for the perception pipeline (2026-11-13, D23)
@@ -82,7 +83,7 @@ processed the same 90 frames at 14.7 frames/s overall.
 
 **This is a software check on one synthetic clip, not an accuracy result.** It
 contains no office footage, no laptops and no backpacks. Model choice will be made
-on the team's tuning takes.
+on session S01 (D29, D30).
 
 ## NMS and `--iou` (checked 2026-11-15, Ultralytics 8.4.212)
 
@@ -95,6 +96,23 @@ models give 6 boxes at iou 0.1 and 9 at iou 0.9. Passing `nms=False` would switc
 YOLO26 to its NMS-free head (7 boxes in the same test); the pipeline does not do
 this. If that mode is ever used, the manifest's `iou` value would no longer apply
 to YOLO26 and must be recorded as such.
+
+## Exploratory: documents in S01 (DOC01/DOC02, 2026-11-21; EXPERIMENTAL, D32)
+
+COCO has no paper or document class; its nearest class is `book` (73). All four
+candidates were run read-only on every 15th frame of DOC01 (60 frames) and DOC02
+(66 frames), imgsz 640, conf 0.10, all 80 classes. Not part of the pipeline and not
+an accuracy result.
+
+| Document state | What the models report |
+| --- | --- |
+| Paper stack lying on the desk (DOC01, ~0–12 s) | `book` in almost every sampled frame by all four models, at low confidence: yolo26n 0.10–0.13, yolo26s ≤ 0.29, yolo11s ≤ 0.43, yolo11n ≤ 0.50 |
+| Paper on top of the PC tower (end of DOC01, start of DOC02) | Not detected by any model |
+| Paper in a visitor's hand | Sporadic: e.g. yolo26s `book` in 4 of 66 DOC02 frames; a few DOC01 frames for three models |
+
+So, with these models, document movement or removal cannot be detected reliably; the
+desk stack is at most a weak `book` proxy. Candidate approaches for FYP-2 are listed
+in D32.
 
 ## Known limitations to evaluate
 

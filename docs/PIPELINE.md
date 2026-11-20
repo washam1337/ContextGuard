@@ -147,11 +147,25 @@ also disabled in Ultralytics' settings (`sync: false`).
 
 ## Limitations and open items
 
-- No office footage, laptops or backpacks have been tested yet.
-- Model choice, thresholds and zones are to be fixed on **tuning takes only**.
+- The pipeline has not yet been run on office footage. Session S01 (recorded
+  2026-11-20) is checked and ready; it is the only FYP-1 dataset (D29).
+- Model choice, thresholds and zones are fixed on S01, and results on S01 are
+  **development results only**, not a held-out evaluation (D30).
+- Timing on S01: the iPhone clips are effectively constant 30.0 fps, and
+  `estimated_seconds` and `decoder_pos_msec` differ by at most 10 ms on every clip
+  (checked 2026-11-21). Variable-frame-rate sources could drift more; the
+  `estimated_seconds` field still assumes a constant rate.
+- Edit lists: a `.MOV` may contain an edit list that trims its start (S01 SC02:
+  631 stored frames, 611 decoded). OpenCV honours it, so `source_frame_index` 0 is the
+  first frame shown in playback, and the inspector's "decoded count differs from
+  reported" warning is expected for such files.
+- Audio tracks in the source are ignored; annotated videos are silent (D31).
+- From a chest-height camera, people near the desk are cut off at the legs, so a
+  `bottom_center` (feet) anchor falls on the frame edge; zones must account for this
+  (`CURRENT_STATE.md` gap 13).
 - H.264 output is unavailable without an external FFmpeg. `mp4v` plays in VLC and
   most desktop players; check playback on the presentation laptop.
 - Processing is slower than real time on large models (small models ~8–9 fps
   detection on this CPU). Recorded video only.
-- The accuracy evaluation (matching rules, metrics, sample) is not yet written; it
-  must be fixed before evaluation takes are scored.
+- The development-results plan (labels, matching rules, metrics) is not yet
+  written; it must be fixed before any results on S01 are computed (D30).

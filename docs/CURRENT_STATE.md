@@ -1,6 +1,6 @@
 # Current state and resume guide
 
-**Last updated:** 2026-11-21 by Claude Code (S01 footage received and checked; D29–D32).
+**Last updated:** 2026-11-23 by Claude Code (S01 zones approved, D33; results plan approved, D34).
 This is a living document. Update it at the end of every milestone or significant
 session. The state in §3 was re-checked by running commands on 2026-11-15; the
 footage row on 2026-11-21.
@@ -36,8 +36,9 @@ Implemented so far:
 | Current scope, deliverables, milestones, SYS cases, observation contract | [`MASTER_PLAN.md` § FYP-1 amendment](../MASTER_PLAN.md#fyp-1-scope-amendment--2026-10-24) |
 | Narrowed domain, assets, anomalies, deferrals | [`MASTER_PLAN.md` § CG-002 amendment](../MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27) |
 | Research question, ablation, metrics, error analysis, ethics, novelty limits | `MASTER_PLAN.md` §1, §10, §11, §13, §24, §30, §39 (original spec, still valid as research direction) |
-| Decision log D01–D28 | [`docs/DECISIONS.md`](DECISIONS.md) |
+| Decision log D01–D34 | [`docs/DECISIONS.md`](DECISIONS.md) |
 | Perception pipeline usage, output schema, count policy | [`docs/PIPELINE.md`](PIPELINE.md) |
+| S01 development-results plan (labels, matching rules, metrics) | [`docs/S01_RESULTS_PLAN.md`](S01_RESULTS_PLAN.md) |
 | Packages, candidate weights, licences, benchmarks | [`docs/MODELS.md`](MODELS.md) |
 | Recording protocol, consent and labelling templates | [`docs/dataset/`](dataset/README.md) |
 | Status log | [`docs/PROGRESS.md`](PROGRESS.md) |
@@ -143,10 +144,11 @@ When the owner lifts a gate, record it in `DECISIONS.md` and update this section
 12. **Audio in the originals.** Every S01 `.MOV` has an AAC audio track, although the
     consent form says no audio is used. Handling: never used or played; outputs are
     silent; originals unmodified (D31).
-13. **Membership anchor vs framing.** The camera is at chest height, so people near the
-    desk are cut off at the legs and their box bottom is the frame bottom. A
-    `bottom_center` (feet) anchor works at the doorway but not for a desk zone. To be
-    handled when the S01 zones are drawn (no schema change: anchors are per-config).
+13. *(Handled 2026-11-23, D33.)* **Membership anchor vs framing.** The camera is at
+    chest height, so people near the desk are cut off at the legs. `S01-office-v1`
+    handles this without a schema change: a `foreground` strip along the frame bottom
+    catches cut-off people, `desk_area` catches people standing behind the desk, and
+    `doorway` uses the feet.
 14. *(Fixed 2026-11-21.)* The S01 originals are read-only (`chmod a-w`, run by the
     owner because Claude Code's permission system blocked it) and the Windows
     `Zone.Identifier` file is deleted. Checksums re-verified unchanged afterwards.
@@ -210,17 +212,17 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
 1. *(Done: handoff, pipeline on synthetic fixtures, S01 recorded 2026-11-20 and
    checked 2026-11-21.)*
 2. *(Done 2026-11-21: originals read-only, leftover file deleted; gap 14.)*
-3. **Claude:** draw the S01 zone configuration on an SC01 frame (doorway zone with
-   the feet anchor; desk/asset area for objects; see gap 13). **Owner confirms.**
-   DOC01/DOC02 need their own configuration (camera moved) or none.
-4. **Claude:** write the development-results plan (labels, matching rules, metrics;
-   D30). **Owner approves.**
-5. **Owner:** label SC01–SC08 with `dataset/ground_truth_template.csv`, one row per
-   second (~220 rows), **before watching any annotated output**.
-6. **Claude:** benchmark the four weights on SC01–SC08 (speed and per-class detection
-   counts); propose model and settings. **Owner approves.**
-7. **Claude:** run the pipeline on SC01–SC08 (and DOC01/DOC02 as exploration);
-   compute the development results; report every scenario, including failures.
+3. *(Done 2026-11-23: zones `S01-office-v1` approved, D33.)*
+4. *(Done 2026-11-23: [S01_RESULTS_PLAN.md](S01_RESULTS_PLAN.md) approved and frozen, D34.)*
+5. **Owner:** label SC01–SC08 in the pre-filled sheet
+   `~/contextguard-data/labels/S01_labels.csv` (202 rows), using the per-second stills
+   in `~/contextguard-data/labelling/S01/`, **before watching any annotated output**.
+6. **Claude:** *(runs started 2026-11-23)* all four models on SC01–SC08 with the
+   plan's fixed settings, without video, outputs in `~/contextguard-data/runs/S01/`.
+   Nothing is compared with labels until steps 4–5 are done.
+7. **Claude:** compute the development results exactly as in the plan; choose the
+   demo model by the plan's rule; make annotated demo videos; report every scenario,
+   including failures.
 8. **Nov 23:** workflow diagram (deliverable 1), SYS-01–08 status table (all PLANNED /
    NOT RUN), doc and README updates (README shown first), demo clips, rehearsal.
 9. **Due on Nov 24 (owner, 2026-11-21):** a presentation plus code preparation showing

@@ -260,3 +260,33 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
   FYP about 30–40% working. Next session starts with the S01 zone configuration.
 - The owner ran the blocked step: S01 originals are now read-only and the
   `Zone.Identifier` file is deleted; all 10 checksums re-verified unchanged.
+
+### 2026-11-23: S01 zones approved; results plan drafted; labelling material made
+
+- **Zones (D33):** `configs/zones/S01_office_v1.json` drawn on SC01 frame 0 and checked
+  against yolo26n detections at conf ≥ 0.25 on every 10th frame of SC01–SC08:
+  - all 464 laptop detections fall in `desk_area`;
+  - of 554 person detections, 391 are in `foreground` (box bottom at the frame
+    edge), 132 in `doorway` and 18 in `desk_area` (people standing behind the desk
+    or the PC tower with their lower body hidden, checked visually in SC07); 13 are in
+    no zone (walking across open floor).
+
+  The owner approved the zones from an overlay picture of the empty room (no
+  detections shown, to avoid biasing the labels).
+- **Early observation (not a result):** in that sample yolo26n detected the backpack only
+  4 times, all while it was carried at the door, and never on the armchair (dark
+  backpack on a dark chair). All four models are compared under the plan.
+- **Results plan:** `docs/S01_RESULTS_PLAN.md` written before any labels exist. It
+  fixes the labelling rules, matching rule, metrics, settings, all-four-models
+  reporting and the demo-model rule. Awaiting owner approval.
+- **Labelling material** (outside the repository):
+  - 202 stills, one per second of SC01–SC08, at decoded frame
+    `round(t × reported_fps)`, in `~/contextguard-data/labelling/S01/`;
+  - a pre-filled sheet, `~/contextguard-data/labels/S01_labels.csv`.
+- **Runs started:** all four models × SC01–SC08, plan settings, no video, into
+  `~/contextguard-data/runs/S01/`. No comparison with labels yet.
+- Owner approved the results plan (D34), before labelling started. The stills and
+  sheet were copied to the owner's Windows Desktop (`ContextGuard_labelling`) for
+  labelling; the completed sheet is copied back to
+  `~/contextguard-data/labels/S01_labels.csv`.
+

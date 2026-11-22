@@ -1,0 +1,18 @@
+{
+  "schema_version": "contextguard.zones.v1",
+  "config_id": "S01-office-v1",
+  "draft": false,
+  "notes": "Approved by the owner 2026-11-23 (D33). Drawn on frame 0 of cg_20261120_S01_SC01_t1 (empty room) for the S01 camera position. Valid for SC01-SC08 only; the camera moved before DOC01/DOC02. Zones do not overlap. Person membership uses the box bottom-centre: at the doorway it is the feet; for people behind the desk it is the visible bottom edge on the desk; people between the camera and the desk are cut off at the frame bottom and fall in 'foreground'. Objects use the box centre. Zone membership is an observation, never a violation.",
+  "reference_width": 1920,
+  "reference_height": 1080,
+  "boundary_policy": "inclusive",
+  "membership_anchors": {"person": "bottom_center", "default": "center"},
+  "zones": [
+    {"id": "doorway", "label": "Doorway", "kind": "entry",
+     "polygon": [[1430, 815], [1645, 815], [1790, 1010], [1430, 1010]]},
+    {"id": "desk_area", "label": "Desk and armchair", "kind": "asset_area",
+     "polygon": [[520, 700], [1430, 630], [1430, 1045], [520, 1045]]},
+    {"id": "foreground", "label": "Foreground (cut off at frame bottom)", "kind": "general",
+     "polygon": [[400, 1046], [1920, 1046], [1920, 1080], [400, 1080]]}
+  ]
+}

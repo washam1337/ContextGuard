@@ -118,6 +118,9 @@ Each object:
   phone rotation metadata). The run warns if the aspect ratio differs, if the decoded
   size differs from the reported size, or if the frame size changes mid-video. The
   scale used is recorded in the manifest as `zones.applied_scale`.
+- The approved configuration for the S01 camera position is
+  `configs/zones/S01_office_v1.json` (D33): `doorway`, `desk_area`, `foreground`.
+  `TEMPLATE_staged_office.json` is only a placeholder example.
 - Kinds: `entry`, `asset_area`, `restricted`, `general`. Being in a `restricted`
   zone is an observation, **not** a violation.
 

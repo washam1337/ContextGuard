@@ -44,6 +44,7 @@ requirements. Never claim supervisor approval: none is recorded, and
 | `docs/PROGRESS.md` | Dated status log. Append. |
 | `docs/PIPELINE.md` | Perception pipeline usage, output schema, count policy, limitations |
 | `docs/MODELS.md` | Installed packages, candidate weights (SHA-256), benchmarks, licences |
+| `docs/S01_RESULTS_PLAN.md` | Frozen rules for the S01 development results: labels, matching, metrics, model choice |
 | `docs/dataset/` | Recording protocol, consent template, labelling template |
 | `docs/VIDEO_INSPECTION.md` | CG-002 inspector reference |
 | `docs/HANDOFF.md` | Historical CG-002 verification record (do not rewrite) |

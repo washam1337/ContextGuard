@@ -46,6 +46,9 @@ requirements. Never claim supervisor approval: none is recorded, and
 | `docs/MODELS.md` | Installed packages, candidate weights (SHA-256), benchmarks, licences |
 | `docs/S01_RESULTS_PLAN.md` | Frozen rules for the S01 development results: labels, matching, metrics, model choice |
 | `docs/S01_RESULTS.md` | S01 development results: all four models, per clip, failures, limitations |
+| `docs/WORKFLOW.md` | Complete system workflow diagram with per-module status (FYP-1 deliverable 1) |
+| `docs/SYS_STATUS.md` | SYS-01–SYS-08 status and missing dependencies (all PLANNED / NOT RUN) |
+| `docs/PRESENTATION_FYP1.md` | FYP-1 presentation storyline, demo clips, numbers and wording |
 | `docs/dataset/` | Recording protocol, consent template, labelling template |
 | `docs/VIDEO_INSPECTION.md` | CG-002 inspector reference |
 | `docs/HANDOFF.md` | Historical CG-002 verification record (do not rewrite) |

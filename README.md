@@ -31,10 +31,13 @@ Potential anomalies require human review; the system must not infer criminal int
 > is complete. A combined perception pipeline (CG-003/004/005) is implemented:
 > person, laptop and backpack detection, anonymous tracking, polygon zones and
 > visible counts, producing an annotated video and structured per-frame output.
-> It has been **tested only on synthetic software fixtures**. Validation on the
-> team's consented office recordings is in progress. Context reasoning and anomaly
-> decisions are planned. No research results or real-office performance claims are
-> available yet.
+> It has been run on the team's consented, staged office recording (session S01:
+> eight scenarios, 202 labelled seconds) with four pretrained models: people were
+> counted exactly in 97.0–98.5% of labelled seconds, the laptop was found in
+> 84.8–87.5% of visible seconds, and the backpack is the weak point (at most 33.8%).
+> These are **development results on the same footage used for tuning**, not a
+> held-out evaluation ([S01 results](docs/S01_RESULTS.md)). Context reasoning and
+> anomaly decisions are planned; none of the system test cases SYS-01–SYS-08 has run.
 
 ## Current capabilities
 
@@ -45,10 +48,10 @@ Potential anomalies require human review; the system must not infer criminal int
 | Reported metadata, timing limitations, and decode warnings | Implemented |
 | First, middle, and last decoded-frame JPEG exports | Implemented |
 | Versioned JSON inspection report | Implemented |
-| Person, laptop and backpack detection (pretrained YOLO, CPU) | Partial: synthetic tests only |
-| Anonymous per-class tracking with observed vs predicted boxes | Partial: synthetic tests only |
-| Polygon zones, visible and per-zone counts | Partial: synthetic tests only |
-| Annotated video and versioned per-frame JSONL output | Partial: synthetic tests only |
+| Person, laptop and backpack detection (pretrained YOLO, CPU) | Partial: development results on S01 |
+| Anonymous per-class tracking with observed vs predicted boxes | Partial: development results on S01 |
+| Polygon zones, visible and per-zone counts | Partial: development results on S01 |
+| Annotated video and versioned per-frame JSONL output | Partial: development results on S01 |
 | Inferred room occupancy | Planned (always recorded as unknown for now) |
 | Structured events and session permissions | Planned |
 | Expected-versus-observed reasoning and evidence-backed review | Planned |
@@ -160,8 +163,10 @@ flowchart LR
     class D,E,F,G planned
 ```
 
-Dark nodes are implemented. Light teal nodes are implemented but tested only on
-synthetic fixtures. Dashed nodes are the planned research pipeline. Observation,
+Dark nodes are implemented. Light teal nodes are implemented and validated only on
+the S01 development footage. Dashed nodes are the planned research pipeline. The
+complete workflow, with every module and its status, is in
+[docs/WORKFLOW.md](docs/WORKFLOW.md). Observation,
 inference, explanations, and human feedback remain separate design concerns. Missing detections or lost tracks alone must not be
 treated as proof that an asset departed.
 
@@ -171,7 +176,7 @@ treated as proof that an asset departed.
 - [x] Build and test a recorded-video inspection utility.
 - [x] Define the FYP-1 deliverables, milestones, and system test cases.
 - [x] Build the combined perception pipeline (CG-003/004/005), tested on synthetic fixtures.
-- [ ] Validate it on the consented staged office recordings: placement, model choice, tuning.
+- [x] Run it on the consented staged office recording S01; compare four models; report development results.
 - [ ] **CG-006** End-to-end recorded-video demo: annotated video plus structured output, with evaluation.
 - [ ] Later: asset state, structured events, session permissions, and expected-versus-observed rules.
 - [ ] Later: traceable evidence windows, human-review explanations, and stored feedback.
@@ -192,13 +197,14 @@ With the environment activated, run the existing suite:
 python -B -m unittest discover -s tests -v
 ```
 
-Run it from the repository root. The 32 tests cover:
+Run it from the repository root. The 37 tests cover:
 
 - the video inspector (10);
 - zone geometry and configuration (8);
 - observation records and the counting policy (5);
 - per-class tracking with Ultralytics' ByteTrack (3);
 - the end-to-end pipeline with a scripted detector (5);
+- the S01 results scoring on hand-made fixtures (5);
 - a real-model smoke test (1), which is skipped unless `weights/yolo26n.pt` is present.
 
 Fixtures are generated in temporary storage and are **software test data, not a
@@ -228,6 +234,11 @@ ContextGuard/
 | [Current state](docs/CURRENT_STATE.md) | Live status, open decisions, and next action |
 | [Pipeline guide](docs/PIPELINE.md) | Running the pipeline, output schema, counting policy, limitations |
 | [Models](docs/MODELS.md) | Dependencies, candidate weights with checksums, licences, benchmarks |
+| [System workflow](docs/WORKFLOW.md) | Complete workflow diagram with the status of every module |
+| [S01 results](docs/S01_RESULTS.md) | Development results for four models on the staged office footage |
+| [S01 results plan](docs/S01_RESULTS_PLAN.md) | Labelling, matching and metric rules fixed before scoring |
+| [SYS case status](docs/SYS_STATUS.md) | SYS-01–SYS-08: all planned / not run, with dependencies |
+| [FYP-1 presentation guide](docs/PRESENTATION_FYP1.md) | Storyline, demo clips, numbers and wording for the presentation |
 | [Dataset protocol](docs/dataset/README.md) | Recording protocol, consent and labelling templates |
 | [Video inspection guide](docs/VIDEO_INSPECTION.md) | Report format, limitations, and troubleshooting |
 | [Master plan](MASTER_PLAN.md) | Research direction and authoritative scope |

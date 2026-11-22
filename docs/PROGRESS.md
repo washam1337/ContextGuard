@@ -329,4 +329,11 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
   plan's rule (which selected yolo26s). Reasons are listed in D35 and
   `S01_RESULTS.md` § 5. Demo videos are being rendered with yolo11s; the yolo26s
   videos are kept for comparison.
+- **Deliverables written:** `docs/WORKFLOW.md` (complete workflow diagram, deliverable 1),
+  `docs/SYS_STATUS.md` (SYS-01–08, all PLANNED / NOT RUN, deliverable 5) and
+  `docs/PRESENTATION_FYP1.md` (storyline, numbers, wording, Q&A). A README update is
+  drafted and waiting for owner approval.
+- **README.md updated** (owner approved the shown diff): status paragraph with S01
+  development results, capabilities rows, diagram caption with a link to WORKFLOW.md,
+  roadmap tick, 37 tests, and five new documentation links.
 

@@ -41,6 +41,9 @@ Implemented so far:
 | Perception pipeline usage, output schema, count policy | [`docs/PIPELINE.md`](PIPELINE.md) |
 | S01 development-results plan (labels, matching rules, metrics) | [`docs/S01_RESULTS_PLAN.md`](S01_RESULTS_PLAN.md) |
 | S01 development results (all models, per clip, failures) | [`docs/S01_RESULTS.md`](S01_RESULTS.md) |
+| Complete system workflow diagram (deliverable 1) | [`docs/WORKFLOW.md`](WORKFLOW.md) |
+| SYS-01–SYS-08 status (deliverable 5) | [`docs/SYS_STATUS.md`](SYS_STATUS.md) |
+| Presentation guide (2026-11-24) | [`docs/PRESENTATION_FYP1.md`](PRESENTATION_FYP1.md) |
 | Packages, candidate weights, licences, benchmarks | [`docs/MODELS.md`](MODELS.md) |
 | Recording protocol, consent and labelling templates | [`docs/dataset/`](dataset/README.md) |
 | Status log | [`docs/PROGRESS.md`](PROGRESS.md) |
@@ -76,9 +79,9 @@ Implemented so far:
 | **CG-002** recorded-video inspection | **IMPLEMENTED**. Synthetic software validation only. Preserve it and schema `contextguard.video_inspection.v1`. |
 | **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>37 tests pass. **Run on S01 (2026-11-23)**: development results in [S01_RESULTS.md](S01_RESULTS.md). People counted exactly in 97.0–98.5% of 202 labelled seconds; laptop recall 84.8–87.5%; backpack recall about 1% (33.8% for yolo11s); CPU 7.5–17 frames/s. Exit criteria appear met; awaiting owner review to mark IMPLEMENTED. Document detection is EXPERIMENTAL: a read-only check found COCO models cannot reliably detect the document (D32). |
 | CG-006 integration/testing/evaluation | PLANNED |
-| Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
+| Deliverable 1: complete workflow diagram | **Done 2026-11-23:** [WORKFLOW.md](WORKFLOW.md), with every module (A–P) and its status, and the two target-anomaly walk-throughs. |
 | Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark and the S01 document check; [dataset/](dataset/README.md) has the recording protocol (with an "S01 as recorded" section) and consent and labelling templates. S01 recorded, labelled and documented; four-model development results in [S01_RESULTS.md](S01_RESULTS.md); demo model yolo11s (D35; the rule selected yolo26s). |
-| SYS-01–SYS-08 | Defined; all **PLANNED / NOT RUN** |
+| SYS-01–SYS-08 | Defined; all **PLANNED / NOT RUN**. Status, dependencies and related S01 footage in [SYS_STATUS.md](SYS_STATUS.md) (deliverable 5). |
 | Audio, accessibility | DEFERRED |
 | Learned temporal modelling | Optional/proposed |
 
@@ -225,7 +228,7 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
    the FYP about **30–40% working**, i.e. the perception demo on S01 (D20). Remaining
    owner input: the slide/report format, if the university prescribes one.
 
-**Resume point (2026-11-23):** step 8: the workflow diagram, the SYS table and presentation material.
+**Resume point (2026-11-23):** workflow diagram, SYS table and presentation guide written; README updated (owner approved); demo videos rendering, then demo clips chosen in the presentation guide.
 
 ## 10. How to resume in a fresh Claude Code session
 

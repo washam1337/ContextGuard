@@ -1,6 +1,6 @@
 # Current state and resume guide
 
-**Last updated:** 2026-11-23 by Claude Code (S01 zones approved, D33; results plan approved, D34).
+**Last updated:** 2026-11-23 by Claude Code (S01 labelled, scored and reported: `S01_RESULTS.md`).
 This is a living document. Update it at the end of every milestone or significant
 session. The state in §3 was re-checked by running commands on 2026-11-15; the
 footage row on 2026-11-21.
@@ -25,8 +25,9 @@ The FYP-1 executable demo is
 Implemented so far:
 - the CG-002 recorded-video inspector (IMPLEMENTED);
 - the combined CG-003/004/005 perception pipeline (PARTIAL: tested on synthetic
-  fixtures only; the team's office footage, session S01, was recorded on 2026-11-20
-  and has passed the technical checks, but the pipeline has not yet been run on it).
+  fixtures, and run on the team's consented office footage S01 with development
+  results for four models in [S01_RESULTS.md](S01_RESULTS.md); exit criteria appear
+  met, awaiting owner review).
 
 ## 2. Where knowledge lives
 
@@ -36,9 +37,10 @@ Implemented so far:
 | Current scope, deliverables, milestones, SYS cases, observation contract | [`MASTER_PLAN.md` § FYP-1 amendment](../MASTER_PLAN.md#fyp-1-scope-amendment--2026-10-24) |
 | Narrowed domain, assets, anomalies, deferrals | [`MASTER_PLAN.md` § CG-002 amendment](../MASTER_PLAN.md#scope-amendment-cg-002--2026-09-27) |
 | Research question, ablation, metrics, error analysis, ethics, novelty limits | `MASTER_PLAN.md` §1, §10, §11, §13, §24, §30, §39 (original spec, still valid as research direction) |
-| Decision log D01–D34 | [`docs/DECISIONS.md`](DECISIONS.md) |
+| Decision log D01–D35 | [`docs/DECISIONS.md`](DECISIONS.md) |
 | Perception pipeline usage, output schema, count policy | [`docs/PIPELINE.md`](PIPELINE.md) |
 | S01 development-results plan (labels, matching rules, metrics) | [`docs/S01_RESULTS_PLAN.md`](S01_RESULTS_PLAN.md) |
+| S01 development results (all models, per clip, failures) | [`docs/S01_RESULTS.md`](S01_RESULTS.md) |
 | Packages, candidate weights, licences, benchmarks | [`docs/MODELS.md`](MODELS.md) |
 | Recording protocol, consent and labelling templates | [`docs/dataset/`](dataset/README.md) |
 | Status log | [`docs/PROGRESS.md`](PROGRESS.md) |
@@ -55,7 +57,7 @@ Implemented so far:
 | Git author | Repository-local identity set 2026-11-13 to the owner's GitHub `noreply` address (owner approved). Earlier history was not rewritten. |
 | Other refs | `local-preparation` → `e931d52`: orphan, never pushed, tree identical to `dd765fe`. Kept on purpose; **do not delete without owner approval.** |
 | CI | GitHub Actions passed on every push to `main`. The last verified run is 43729300017 (`881d44a`). Check `gh run list` for later pushes. |
-| Tests | `unittest`: **32 run, 32 pass, 0 skipped** (2026-11-15, `fyp` interpreter, repo root): CG-002 ×10 and pipeline ×22. The YOLO smoke test runs only when `weights/yolo26n.pt` exists, and is skipped in CI. **Run from the repo root**: tests import `contextguard` and `scripts`, which are not installed packages. |
+| Tests | `unittest`: **37 run, 37 pass, 0 skipped** (2026-11-23, `fyp` interpreter, repo root): CG-002 ×10, pipeline ×22, S01 scoring ×5. The YOLO smoke test runs only when `weights/yolo26n.pt` exists, and is skipped in CI. **Run from the repo root**: tests import `contextguard` and `scripts`, which are not installed packages. |
 | `MASTER_PLAN.md` integrity | Append-only confirmed. The original 68,258 bytes have SHA-256 `9e161cd5…26af6c1`; the CG-002 version (71,248 bytes, `840f96d4…fb29a2`) is an exact prefix; current full file is `2469ce9f…6525a142` (84,037 bytes). |
 | Interpreter | `/home/w4shm1337/miniconda3/envs/fyp/bin/python`, Python 3.10.21 |
 | Declared deps | `opencv-python==5.0.0.93`; since 2026-11-13 also `torch==2.14.1+cpu`, `torchvision==0.29.2+cpu`, `ultralytics==8.4.212`, `lap==0.5.14` (D23; see [MODELS.md](MODELS.md)). Ultralytics telemetry is disabled. |
@@ -72,10 +74,10 @@ Implemented so far:
 | --- | --- |
 | CG-001/CG-001A audits | Complete (history only) |
 | **CG-002** recorded-video inspection | **IMPLEMENTED**. Synthetic software validation only. Preserve it and schema `contextguard.video_inspection.v1`. |
-| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>32 tests pass. **Not yet validated on office footage**: S01 is recorded and checked (2026-11-21); pipeline runs on it are next. Document detection is EXPERIMENTAL: a read-only check found COCO models cannot reliably detect the document (D32). |
+| **CG-003 + CG-004 + CG-005, combined pipeline (D21)** | **PARTIAL (2026-11-13).** Implemented and tested on synthetic fixtures only:<br>• `contextguard/` package and `scripts/run_pipeline.py`, documented in [PIPELINE.md](PIPELINE.md);<br>• YOLO + class-wise ByteTrack;<br>• `contextguard.observation.v1` JSONL;<br>• zones `contextguard.zones.v1` with visible/per-zone counts;<br>• annotated MP4 and run manifest;<br>• `scripts/benchmark_models.py`.<br>37 tests pass. **Run on S01 (2026-11-23)**: development results in [S01_RESULTS.md](S01_RESULTS.md). People counted exactly in 97.0–98.5% of 202 labelled seconds; laptop recall 84.8–87.5%; backpack recall about 1% (33.8% for yolo11s); CPU 7.5–17 frames/s. Exit criteria appear met; awaiting owner review to mark IMPLEMENTED. Document detection is EXPERIMENTAL: a read-only check found COCO models cannot reliably detect the document (D32). |
 | CG-006 integration/testing/evaluation | PLANNED |
 | Deliverable 1: complete workflow diagram | PLANNED. Existing diagrams are conceptual and do not satisfy it. |
-| Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark and the S01 document check; [dataset/](dataset/README.md) has the recording protocol (with an "S01 as recorded" section) and consent and labelling templates. S01 recorded and documented; no selected model and no results on footage yet. |
+| Deliverable 4: dataset and model docs | **PARTIAL.** [MODELS.md](MODELS.md) records packages, licences, four candidate weights with SHA-256 and a synthetic benchmark and the S01 document check; [dataset/](dataset/README.md) has the recording protocol (with an "S01 as recorded" section) and consent and labelling templates. S01 recorded, labelled and documented; four-model development results in [S01_RESULTS.md](S01_RESULTS.md); demo model yolo11s (D35; the rule selected yolo26s). |
 | SYS-01–SYS-08 | Defined; all **PLANNED / NOT RUN** |
 | Audio, accessibility | DEFERRED |
 | Learned temporal modelling | Optional/proposed |
@@ -214,22 +216,16 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
 2. *(Done 2026-11-21: originals read-only, leftover file deleted; gap 14.)*
 3. *(Done 2026-11-23: zones `S01-office-v1` approved, D33.)*
 4. *(Done 2026-11-23: [S01_RESULTS_PLAN.md](S01_RESULTS_PLAN.md) approved and frozen, D34.)*
-5. **Owner:** label SC01–SC08 in the pre-filled sheet
-   `~/contextguard-data/labels/S01_labels.csv` (202 rows), using the per-second stills
-   in `~/contextguard-data/labelling/S01/`, **before watching any annotated output**.
-6. **Claude:** *(runs started 2026-11-23)* all four models on SC01–SC08 with the
-   plan's fixed settings, without video, outputs in `~/contextguard-data/runs/S01/`.
-   Nothing is compared with labels until steps 4–5 are done.
-7. **Claude:** compute the development results exactly as in the plan; choose the
-   demo model by the plan's rule; make annotated demo videos; report every scenario,
-   including failures.
+5. *(Done 2026-11-23: owner labelled 202 seconds; 9 corrected after a stills-only rule check, before scoring.)*
+6. *(Done 2026-11-23: four models × SC01–SC08, all runs completed.)*
+7. *(Done 2026-11-23: scored with `scripts/score_s01.py`; report [S01_RESULTS.md](S01_RESULTS.md). The rule selected yolo26s; the owner chose **yolo11s** for the demo (D35, recorded deviation). Annotated demo videos rendered with both into `~/contextguard-data/runs/S01_demo/`.)*
 8. **Nov 23:** workflow diagram (deliverable 1), SYS-01–08 status table (all PLANNED /
    NOT RUN), doc and README updates (README shown first), demo clips, rehearsal.
 9. **Due on Nov 24 (owner, 2026-11-21):** a presentation plus code preparation showing
    the FYP about **30–40% working**, i.e. the perception demo on S01 (D20). Remaining
    owner input: the slide/report format, if the university prescribes one.
 
-**Resume point (2026-11-21):** continue with step 3 (zones) in the next session.
+**Resume point (2026-11-23):** step 8: the workflow diagram, the SYS table and presentation material.
 
 ## 10. How to resume in a fresh Claude Code session
 

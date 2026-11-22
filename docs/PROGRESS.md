@@ -290,3 +290,43 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
   labelling; the completed sheet is copied back to
   `~/contextguard-data/labels/S01_labels.csv`.
 
+### 2026-11-23: labels received; correction about SC08
+
+- The owner completed `~/contextguard-data/labels/S01_labels.csv` (202 rows). Format
+  check: rows and order match the pre-filled sheet; no blanks; all values valid; no
+  row is both visible and occluded. The blank sheet is kept as
+  `S01_labels_blank.csv`. No pipeline output had been compared with labels at this
+  point.
+- **Correction (Claude's error):** earlier entries (2026-11-21), the protocol's § 8 and
+  the session log said that in SC08 the laptop on the PC tower is out of the camera's
+  view. Checking the stills at t = 20 s and 28 s shows it **is partly visible** (a thin
+  edge with the sticker on top of the tower). The protocol, the session log and an
+  example in the frozen results plan were corrected; the plan's rules are unchanged.
+
+### 2026-11-23: S01 scored; development results reported
+
+- **Labels:** 9 seconds corrected with owner approval after a rule-consistency check
+  made from the stills only, before any scoring (SC05 t14–19 and SC08 t16: carried
+  laptop visible; SC07 t13: backpack hidden while carried; SC07 t16: person partly
+  visible). The owner's original sheet is kept as `S01_labels_owner_v1.csv`.
+- **Scoring code:** `scripts/score_s01.py` implements the frozen plan. It has 5
+  deterministic tests (`tests/test_score_s01.py`); the full suite runs 37 tests, all
+  passing.
+- **Results** (development results, D30; details in `docs/S01_RESULTS.md`):
+  - person count exact in 196–199 of 202 seconds;
+  - laptop recall 84.8–87.5%; backpack recall 0.5–1.0%, except yolo11s at 33.8%;
+  - nano models about 17 frames/s, small models 7.5–8 frames/s on the CPU.
+- **Demo model:** the plan's rule selects **yolo26s**: all four models tie within 2
+  points on persons, yolo26s and yolo11s tie on laptop recall, and yolo26s is faster.
+  The backpack trade-off (yolo11s) is reported for the owner to decide.
+- **Failure analysis:** checked visually on frames with the boxes drawn, and fact-checked
+  against the JSONL before writing. Three boundary cases favouring the model
+  (SC04 t5, SC08 t3, laptop-lid strips) are reported, not corrected.
+- **Additional (not a plan metric):** laptop and backpack track-ID counts per clip,
+  added for the CG-005 exit criteria.
+- **Annotated demo videos:** rendered with yolo26s into `~/contextguard-data/runs/S01_demo/`.
+- **Owner decision D35:** the demo model is **yolo11s**, a recorded deviation from the
+  plan's rule (which selected yolo26s). Reasons are listed in D35 and
+  `S01_RESULTS.md` § 5. Demo videos are being rendered with yolo11s; the yolo26s
+  videos are kept for comparison.
+

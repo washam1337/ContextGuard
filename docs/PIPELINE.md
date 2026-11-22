@@ -1,8 +1,9 @@
 # Perception pipeline (FYP-1 combined CG-003/004/005)
 
 Status: **PARTIAL.** The code is implemented and tested on synthetic software
-fixtures (2026-11-13). It has **not yet been validated on office footage**: no
-consented recordings exist yet. See D21–D23.
+fixtures (2026-11-13), and was run on the team's consented office footage (S01) on
+2026-11-23. Development results for all four models are in
+[S01_RESULTS.md](S01_RESULTS.md). These are not a held-out evaluation (D30). See D21–D23.
 
 ```text
 recorded video → YOLO detector → class-wise ByteTrack → zones + visible counts
@@ -150,8 +151,11 @@ also disabled in Ultralytics' settings (`sync: false`).
 
 ## Limitations and open items
 
-- The pipeline has not yet been run on office footage. Session S01 (recorded
-  2026-11-20) is checked and ready; it is the only FYP-1 dataset (D29).
+- On S01 (the only FYP-1 dataset, D29) the main perception limits are: a laptop
+  carried edge-on or lying on the PC tower is not detected; a dark backpack on a
+  dark chair is mostly below the counting threshold; a person behind the PC tower
+  can get two boxes; track IDs break after occlusion. Details:
+  [S01_RESULTS.md](S01_RESULTS.md) § 6.
 - Model choice, thresholds and zones are fixed on S01, and results on S01 are
   **development results only**, not a held-out evaluation (D30).
 - Timing on S01: the iPhone clips are effectively constant 30.0 fps, and

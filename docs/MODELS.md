@@ -1,10 +1,14 @@
 # Pretrained models and dependencies
 
-Status: **candidates downloaded; no model selected yet** (D22). Selection is made by
+Status: **all four candidates compared on S01 (2026-11-23,
+[S01_RESULTS.md](S01_RESULTS.md)). Demo model: yolo11s** (D35: the owner's recorded
+deviation from the plan's rule, which selected yolo26s, because only yolo11s detects
+the backpack meaningfully; see D35 for all reasons) (D22). Selection is made by
 a measured benchmark on the team's own consented footage, session S01, which is the
 only FYP-1 dataset (D29); results on it are development results only (D30). See
 [dataset/RECORDING_PROTOCOL.md](dataset/RECORDING_PROTOCOL.md) § 8.
-No accuracy on office footage has been measured yet.
+The S01 numbers are development results on the tuning data (D30), not an accuracy
+estimate for other footage.
 
 ## Software installed for the perception pipeline (2026-11-13, D23)
 

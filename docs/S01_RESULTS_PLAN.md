@@ -31,7 +31,8 @@ are reported.
 Known content deviations, from the protocol's § 8, are reported alongside the
 results and not hidden:
 - SC04 shows no brief exceedance;
-- in SC08 the laptop goes onto the PC tower, out of view, and is not returned;
+- in SC08 the laptop is put on top of the PC tower (still partly visible there) and
+  is not returned to the desk;
 - SC02–SC04 do not end with an empty room.
 
 ## 3. Ground truth
@@ -58,9 +59,15 @@ before all labels are finished.
 | `persons_visible` | Number of people you can see in the still, even partially (a head, a torso, or legs is enough; a hand alone is not). Count a person in the doorway even if only part of them shows. |
 | `laptop_visible` | `1` if any part of the laptop can be seen, including while it is carried; otherwise `0`. |
 | `backpack_visible` | `1` if any part of the backpack can be seen, including while it is carried; otherwise `0`. |
-| `laptop_occluded` | `1` if the laptop is in the room but cannot be seen, e.g. hidden behind a person (SC06) or out of view on the PC tower (SC08); otherwise `0`. A laptop carried out of the room is `visible = 0, occluded = 0`. |
+| `laptop_occluded` | `1` if the laptop is in the room but cannot be seen, e.g. hidden behind a person (SC06); otherwise `0`.* A laptop carried out of the room is `visible = 0, occluded = 0`. |
 | `backpack_occluded` | As for the laptop. |
 | `notes` | Anything unusual: a person only partly in frame, motion blur, unsure. Write `unsure` when you are not certain. |
+
+\* *Correction 2026-11-23, after labelling and before any scoring:* this example
+originally also said "or out of view on the PC tower (SC08)". That was a factual
+error by Claude: the laptop on the PC tower is partly visible, so by the rule it is
+`visible = 1`, as the owner labelled it. Only the example was wrong; the rule is
+unchanged (logged in `PROGRESS.md`).
 
 **Do not change the rules mid-way.** If a case is unclear, label your best judgement
 and write `unsure` in `notes`. Unsure seconds are reported both included and

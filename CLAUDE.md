@@ -45,6 +45,7 @@ requirements. Never claim supervisor approval: none is recorded, and
 | `docs/PIPELINE.md` | Perception pipeline usage, output schema, count policy, limitations |
 | `docs/MODELS.md` | Installed packages, candidate weights (SHA-256), benchmarks, licences |
 | `docs/S01_RESULTS_PLAN.md` | Frozen rules for the S01 development results: labels, matching, metrics, model choice |
+| `docs/S01_RESULTS.md` | S01 development results: all four models, per clip, failures, limitations |
 | `docs/dataset/` | Recording protocol, consent template, labelling template |
 | `docs/VIDEO_INSPECTION.md` | CG-002 inspector reference |
 | `docs/HANDOFF.md` | Historical CG-002 verification record (do not rewrite) |
@@ -69,8 +70,9 @@ requirements. Never claim supervisor approval: none is recorded, and
   `contextguard.video_inspection.v1`.
 - Milestones: CG-003 people (includes the consented pilot and placement review),
   CG-004 zones/counting and CG-005 laptop/backpack are built as **one combined pipeline**
-  (D21). It is PARTIAL: synthetic tests only, real-footage validation pending. Then
-  CG-006 integration/evaluation (PLANNED). Exit criteria are in the FYP-1 amendment;
+  (D21). It is PARTIAL: run on S01 with development results (`docs/S01_RESULTS.md`,
+  2026-11-23); its exit criteria appear met, awaiting owner review to mark IMPLEMENTED.
+  Then CG-006 integration/evaluation (PARTIAL: workflow diagram and SYS table pending). Exit criteria are in the FYP-1 amendment;
   check `docs/CURRENT_STATE.md` for live status.
 - Do not build interaction inference, asset state, events, permission/context
   reasoning, anomaly rules, incidents, evidence clips, dashboard/API or feedback unless

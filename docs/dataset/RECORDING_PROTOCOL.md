@@ -161,8 +161,8 @@ Deviations from this protocol:
 7. Scripts not followed exactly: in SC02 the visitor stands and does not leave; in
    SC03 both visitors are inside together for ~12 s (not ≥ 20 s) and nobody leaves;
    in SC04 the second visitor stays ~14 s (**not a brief visit**); in SC08 the laptop
-   is placed on the PC tower, out of the camera's view, and **not returned** within
-   the clip.
+   is placed on top of the PC tower, where it stays partly visible, and is **not
+   returned** to the desk within the clip.
 8. One laptop throughout, but after SC05 it was put back slightly to the right and at
    a different angle, so it looks greyer in SC06–SC08; a paper stack is on the desk
    from SC06; in SC08 the backpack is on the chair behind the desk.

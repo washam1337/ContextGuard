@@ -40,9 +40,34 @@ used (D31). Use VLC; the annotated files are `mp4v` MP4.
 The recommended clips and what to point at are filled in after the demo videos are
 reviewed; see § 3a.
 
-### 3a. Recommended clips
+### 3a. How to read the annotated video
 
-*(To be completed after the yolo11s demo videos are checked.)*
+| On screen | Meaning |
+| --- | --- |
+| Top-left box | Frame number, estimated time, **visible** counts per class, and "inferred occupancy: not available" (on purpose: visible ≠ occupancy) |
+| Green box `person:0001 0.93` | Person, with an anonymous clip-scoped track ID and the detector confidence (not a probability) |
+| Blue box | Laptop |
+| Orange box | Backpack |
+| Thin box with "(below count threshold)" | Detected at 0.10–0.25: shown for transparency, **not counted** |
+| Grey dashed box with "lost (predicted)" | Tracker's guess where a lost object might be: **never counted** |
+| Yellow polygons with counts | Zones `doorway`, `desk_area`, `foreground`, with per-zone counts of counted boxes |
+
+### 3b. Recommended clips (yolo11s, checked 2026-11-23)
+
+Files: `~/contextguard-data/runs/S01_demo/yolo11s/<clip>/annotated.mp4`. All 8 were
+verified: one video frame per JSONL record, and counts identical to the scored runs.
+Times are approximate.
+
+| Order | Clip | Show | What to point at |
+| --- | --- | --- | --- |
+| 1 | **SC03** two visitors (30 s) | Detection, tracking, zones, counting | ~6 s: V1 appears in the `doorway` zone. ~12 s: V1 in `foreground`. ~18–30 s: **visible person 2**, two separate track IDs. The laptop behind V2 becomes a grey "lost (predicted)" box that is not counted |
+| 2 | **SC06** laptop occluded (25 s) | Occlusion is not departure | ~12–17 s: V1 stands in front of the camera; the laptop disappears from `desk_area` (count 0). ~18 s: it is detected again, under **new track IDs** (`laptop:0001` before; `0006`, then `0008` after). Point out that perception alone saw "laptop gone" for ~6 s |
+| 3 | **SC05** laptop carried out (24 s) | Same signal, different meaning | ~12–14 s: V1 picks up the laptop. From ~14 s it is no longer detected (carried edge-on). ~20–22 s: V1 in `doorway`, leaving. Compare with SC06: the perception signal is the same, so the planned context/temporal stage must decide |
+| 4 | **SC07** backpack carried out (19 s) | The second asset; why yolo11s | ~5 s: V2 enters. ~10–12 s: picks up the backpack. ~14–15 s: the carried backpack is detected (orange, up to 0.69) beside the door as V2 leaves; its centre is above the floor-level `doorway` zone, so it is in no zone, while V2's feet are counted in `doorway`. Also show the low-confidence orange boxes on the armchair, the reason the backpack is the weak point |
+| optional | SC01 empty room (15 s) | No people falsely detected | 0 persons throughout; laptop steady; backpack detected only intermittently |
+
+Avoid SC04 as an example of a "brief visit": the second visitor stays ~14 s.
+SC08's laptop on the PC tower is a good **failure** example if asked.
 
 ## 4. Numbers to quote (with the right wording)
 

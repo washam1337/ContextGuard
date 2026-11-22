@@ -228,7 +228,7 @@ schedule slipped: S01 was recorded on 2026-11-20 and is the only dataset (D29).
    the FYP about **30–40% working**, i.e. the perception demo on S01 (D20). Remaining
    owner input: the slide/report format, if the university prescribes one.
 
-**Resume point (2026-11-23):** workflow diagram, SYS table and presentation guide written; README updated (owner approved); demo videos rendering, then demo clips chosen in the presentation guide.
+**Resume point (2026-11-23):** workflow diagram, SYS table and presentation guide written; README updated (owner approved); yolo11s demo videos verified; demo clips chosen in [PRESENTATION_FYP1.md](PRESENTATION_FYP1.md) § 3. Next: owner rehearsal; after the presentation, owner review of the CG-003–005 exit criteria.
 
 ## 10. How to resume in a fresh Claude Code session
 

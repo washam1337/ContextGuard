@@ -336,4 +336,10 @@ All checks were read-only; SHA-256 of every original was verified unchanged afte
 - **README.md updated** (owner approved the shown diff): status paragraph with S01
   development results, capabilities rows, diagram caption with a link to WORKFLOW.md,
   roadmap tick, 37 tests, and five new documentation links.
+- **Demo videos verified (yolo11s, D35):** all 8 clips play; each has one video frame
+  per JSONL record at 30 fps; counts and objects are identical to the scored runs, so
+  the demo shows exactly what was measured. yolo26s videos are kept for comparison.
+  Recommended clips (SC03, SC06, SC05, SC07, optionally SC01) with timestamps and an
+  on-screen legend were added to `PRESENTATION_FYP1.md` § 3, after checking the
+  claims against the JSONL.
 

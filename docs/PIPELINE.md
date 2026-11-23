@@ -127,7 +127,7 @@ Each object:
 
 ## Verified so far (2026-11-13; synthetic only)
 
-- 32 unit/integration tests pass (count updated 2026-11-15):
+- 37 tests pass (count updated 2026-11-23; the 5 S01 scoring tests are listed in the README):
   - CG-002 ×10;
   - zones ×8;
   - observation schema and counting ×5;
